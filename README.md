@@ -2,7 +2,7 @@
 
 This is essentially a stripped-down fork of [lslib](https://github.com/Norbyte/lslib), with the native part replaced with C# libraries, and the applications removed, for use in [BG3ModManager](https://github.com/LaughingLeader/BG3ModManager)'s [Avalonia](https://github.com/AvaloniaUI/Avalonia/) port (or other projects).
 
-The granny-related code was moved to a separate project (`LSGranny`), to allow compiling LSLib without it, but this won't compile currently without the previous LSLibNative.
+The granny-related code was moved to a separate project (`LSGranny`), to allow compiling LSLib without it, but `LSGranny` won't compile currently without the previous LSLibNative.
 
 Requirements
 ============
