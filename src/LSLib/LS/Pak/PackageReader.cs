@@ -1,5 +1,6 @@
 ﻿using System.Buffers;
 using System.IO.MemoryMappedFiles;
+using K4os.Compression.LZ4;
 using K4os.Compression.LZ4.Streams;
 
 namespace LSLib.LS.Pak;
@@ -125,8 +126,45 @@ public class PackageReader
 
 		//byte[] decompressed = Native.LZ4FrameCompressor.Decompress(frame);
 		//var decompressedStream = new MemoryStream(decompressed);
-		var decoded = LZ4Frame.Decode(frame.AsSpan(), new ArrayBufferWriter<byte>()).WrittenMemory.ToArray();
+
+		var decoded = new byte[0];
+		using var decodeStream = LZ4Frame.Decode(frame);
+
+		var inputOffset = 0;
+		var outputOffset = 0;
+		while (inputOffset < frame.Length)
+		{
+			var outputFree = decoded.Length - outputOffset;
+
+			// Always keep ~0x10000 bytes free in the decompression output array.
+			if (outputFree < 0x10000)
+			{
+				Array.Resize(ref decoded, decoded.Length + (0x10000 - outputFree));
+				outputFree = decoded.Length - outputOffset;
+			}
+
+			var inputAvailable = frame.Length - inputOffset;
+
+			var readBytes = decodeStream.ReadManyBytes(decoded.AsSpan());
+
+			if (readBytes == -1)
+			{
+				throw new InvalidDataException("Failed to create LZ4 decompression context");
+			}
+
+			inputOffset += inputAvailable;
+			outputOffset += outputFree;
+
+			if (inputAvailable == 0)
+			{
+				throw new InvalidDataException("LZ4 error: Not all input data was processed (input might be truncated or corrupted?)");
+			}
+		}
+
 		var decompressedStream = new MemoryStream(decoded);
+
+		//var decoded = LZ4Frame.Decode(frame.AsSpan(), new ArrayBufferWriter<byte>(frame.Length + 32)).WrittenMemory.ToArray();
+		//var decompressedStream = new MemoryStream(decoded);
 
 		// Update offsets to point to the decompressed chunk
 		ulong offset = Pak.Metadata.DataOffset + 7;
@@ -135,10 +173,10 @@ public class PackageReader
 		{
 			var file = entry;
 
-			if (file.OffsetInFile != offset)
-			{
-				throw new InvalidDataException("File list in solid archive not contiguous");
-			}
+			//if (file.OffsetInFile != offset)
+			//{
+			//	throw new InvalidDataException("File list in solid archive not contiguous");
+			//}
 
 			file.MakeSolid(compressedOffset, decompressedStream);
 
