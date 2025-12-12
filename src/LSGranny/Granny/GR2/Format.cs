@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using OpenTK.Mathematics;
-using System.Reflection;
-using System.IO.Hashing;
+﻿using LSLib.Granny.Model;
 
 namespace LSLib.Granny.GR2;
 
@@ -122,6 +119,15 @@ public class Transform
         return transform;
     }
 
+    public static Transform FromGLTF(AffineTransform t)
+    {
+        var transform = new Transform();
+        transform.SetTranslation(t.Translation.ToOpenTK());
+        transform.SetRotation(t.Rotation.ToOpenTK());
+        transform.SetScale(t.Scale.ToOpenTK());
+        return transform;
+    }
+
     public Matrix4 ToMatrix4Composite()
     {
         Matrix3 transform3 = Matrix3.CreateFromQuaternion(Rotation);
@@ -173,7 +179,7 @@ public class Transform
 
             transform = scaleShear * transform;
         }
-        
+
         return transform;
     }
 
@@ -197,7 +203,7 @@ public class Magic
     /// Magic value used for version 7 little-endian 32-bit Granny files
     /// </summary>
     private static readonly byte[] LittleEndian32Magic2 = [0x29, 0x75, 0x31, 0x82, 0xBA, 0x02, 0x11, 0x77, 0x25, 0x3A, 0x60, 0x2F, 0xF6, 0x6A, 0x8C, 0x2E];
-    
+
     /// <summary>
     /// Magic value used for version 6 little-endian 32-bit Granny files
     /// </summary>

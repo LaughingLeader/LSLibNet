@@ -1,7 +1,7 @@
-﻿using OpenTK.Mathematics;
-using LSLib.Granny.GR2;
+﻿using LSLib.Granny.GR2;
 
 namespace LSLib.Granny.Model.CurveData;
+
 public class CurveRegistry
 {
     private static Dictionary<Type, CurveFormat> TypeToFormatMap;
@@ -250,7 +250,7 @@ public abstract class AnimationCurveData
 
         return quats;
     }
-        
+
 
     public void ExportKeyframes(KeyframeTrack track, ExportType type)
     {

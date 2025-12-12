@@ -1,5 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using OpenTK.Mathematics;
 
 namespace LSLib.Granny.Model;
 
@@ -175,7 +174,7 @@ public class VertexDescriptor
             vertexFormat += "W";
             attributeCounts += NumBoneInfluences.ToString();
         }
-        
+
         switch (NormalType)
         {
             case NormalType.None:
@@ -415,7 +414,7 @@ public class VertexSerializer : NodeSerializer
     public VertexDescriptor ConstructDescriptor(MemberDefinition memberDefn, StructDefinition defn, object parent)
     {
         var desc = new VertexDescriptor();
-        
+
         foreach (var member in defn.Members)
         {
             switch (member.Name)
@@ -613,6 +612,107 @@ public class VertexSerializer : NodeSerializer
         for (int i = 0; i < items.Count; i++)
         {
             items[i].Serialize(section);
+        }
+    }
+}
+
+public class SingleAnnotationTemplate
+{
+    public Single Float;
+}
+
+public class UInt16AnnotationTemplate
+{
+    public UInt16 Uint16;
+}
+
+public class VertexAnnotationSetSerializer : NodeSerializer, VariantTypeSelector
+{
+    public Type SelectType(MemberDefinition member, object obj)
+    {
+        if (obj is List<Single>)
+        {
+            return typeof(SingleAnnotationTemplate);
+        }
+        else if (obj is List<UInt16>)
+        {
+            return typeof(UInt16AnnotationTemplate);
+        }
+        else
+        {
+            throw new InvalidDataException($"Cannot write annotations of this type: {obj.GetType().Name}");
+        }
+    }
+
+    public Type SelectType(MemberDefinition member, StructDefinition defn, object parent)
+    {
+        throw new NotImplementedException();
+    }
+
+    public object ReadUInt16s(GR2Reader gr2, uint arraySize)
+    {
+        var vals = new List<UInt16>((int)arraySize);
+        for (int i = 0; i < arraySize; i++)
+            vals.Add(gr2.Reader.ReadUInt16());
+        return vals;
+    }
+
+    public void WriteUInt16s(GR2Writer writer, WritableSection section, object obj)
+    {
+        var items = obj as List<UInt16>;
+        for (int i = 0; i < items.Count; i++)
+            section.Writer.Write(items[i]);
+    }
+
+    public object ReadFloats(GR2Reader gr2, uint arraySize)
+    {
+        var vals = new List<Single>((int)arraySize);
+        for (int i = 0; i < arraySize; i++)
+            vals.Add(gr2.Reader.ReadSingle());
+        return vals;
+    }
+
+    public void WriteFloats(GR2Writer writer, WritableSection section, object obj)
+    {
+        var items = obj as List<Single>;
+        for (int i = 0; i < items.Count; i++)
+            section.Writer.Write(items[i]);
+    }
+
+    public object Read(GR2Reader gr2, StructDefinition definition, MemberDefinition member, uint arraySize, object parent)
+    {
+        if (definition.Members.Count != 1)
+        {
+            throw new InvalidDataException("Annotation set has invalid size");
+        }
+
+        if (definition.Members[0].Type == MemberType.Real32)
+        {
+            return ReadFloats(gr2, arraySize);
+        }
+        else if (definition.Members[0].Type == MemberType.UInt16)
+        {
+            return ReadUInt16s(gr2, arraySize);
+        }
+        else
+        {
+            throw new InvalidDataException($"Unsupported annotation element type: {definition.Members[0].Type}");
+        }
+    }
+
+    public void Write(GR2Writer writer, WritableSection section, MemberDefinition member, object obj)
+    {
+        if (obj is List<Single>)
+        {
+            WriteFloats(writer, section, obj);
+        }
+        else if (obj is List<UInt16>)
+        {
+            WriteUInt16s(writer, section, obj);
+        }
+        else
+        {
+            throw new InvalidDataException($"Cannot write annotations of this type: {obj.GetType().Name}");
         }
     }
 }

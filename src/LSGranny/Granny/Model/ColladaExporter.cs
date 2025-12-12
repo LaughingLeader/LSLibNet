@@ -1,9 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using LSLib.LS;
-using System.Xml;
-using LSLib.LS.Enums;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace LSLib.Granny.Model;
 
@@ -67,31 +62,22 @@ public class ColladaMeshExporter(Mesh mesh, string exportedId, ExporterOptions o
 
                 case "Normal":
                     {
-                        if (Options.ExportNormals)
-                        {
-                            var normals = ExportedMesh.PrimaryVertexData.MakeColladaNormals(ExportedId);
-                            AddInput(normals, "NORMAL");
-                        }
+                        var normals = ExportedMesh.PrimaryVertexData.MakeColladaNormals(ExportedId);
+                        AddInput(normals, "NORMAL");
                         break;
                     }
 
                 case "Tangent":
                     {
-                        if (Options.ExportTangents)
-                        {
-                            var tangents = ExportedMesh.PrimaryVertexData.MakeColladaTangents(ExportedId);
-                            AddInput(tangents, "TEXTANGENT");
-                        }
+                        var tangents = ExportedMesh.PrimaryVertexData.MakeColladaTangents(ExportedId);
+                        AddInput(tangents, "TEXTANGENT");
                         break;
                     }
 
                 case "Binormal":
                     {
-                        if (Options.ExportTangents)
-                        {
-                            var binormals = ExportedMesh.PrimaryVertexData.MakeColladaBinormals(ExportedId);
-                            AddInput(binormals, "TEXBINORMAL");
-                        }
+                        var binormals = ExportedMesh.PrimaryVertexData.MakeColladaBinormals(ExportedId);
+                        AddInput(binormals, "TEXBINORMAL");
                         break;
                     }
 
@@ -102,12 +88,9 @@ public class ColladaMeshExporter(Mesh mesh, string exportedId, ExporterOptions o
                 case "TextureCoordinates4":
                 case "TextureCoordinates5":
                     {
-                        if (Options.ExportUVs)
-                        {
-                            int uvIndex = Int32.Parse(component[^1..]);
-                            var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
-                            AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
-                        }
+                        int uvIndex = Int32.Parse(component[^1..]);
+                        var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
+                        AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
                         break;
                     }
 
@@ -118,12 +101,9 @@ public class ColladaMeshExporter(Mesh mesh, string exportedId, ExporterOptions o
                 case "UVChannel_2":
                 case "map1":
                     {
-                        if (Options.ExportUVs)
-                        {
-                            int uvIndex = Int32.Parse(component[^1..]) - 1;
-                            var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
-                            AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
-                        }
+                        int uvIndex = Int32.Parse(component[^1..]) - 1;
+                        var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
+                        AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
                         break;
                     }
 
@@ -134,11 +114,8 @@ public class ColladaMeshExporter(Mesh mesh, string exportedId, ExporterOptions o
 
                 case "DiffuseColor0":
                     {
-                        if (Options.ExportColors)
-                        {
-                            var colors = ExportedMesh.PrimaryVertexData.MakeColladaColors(ExportedId, 0);
-                            AddInput(colors, null, "COLOR", 0);
-                        }
+                        var colors = ExportedMesh.PrimaryVertexData.MakeColladaColors(ExportedId, 0);
+                        AddInput(colors, null, "COLOR", 0);
                         break;
                     }
 
@@ -161,44 +138,38 @@ public class ColladaMeshExporter(Mesh mesh, string exportedId, ExporterOptions o
         AddInput(positions, "POSITION", "VERTEX");
 
         // Normals
-        if (desc.NormalType != NormalType.None && Options.ExportNormals)
+        if (desc.NormalType != NormalType.None)
         {
             var normals = ExportedMesh.PrimaryVertexData.MakeColladaNormals(ExportedId);
             AddInput(normals, null, "NORMAL");
         }
 
         // Tangents
-        if (desc.TangentType != NormalType.None && Options.ExportTangents)
+        if (desc.TangentType != NormalType.None)
         {
             var normals = ExportedMesh.PrimaryVertexData.MakeColladaTangents(ExportedId);
             AddInput(normals, null, "TEXTANGENT");
         }
 
         // Binormals
-        if (desc.BinormalType != NormalType.None && Options.ExportTangents)
+        if (desc.BinormalType != NormalType.None)
         {
             var normals = ExportedMesh.PrimaryVertexData.MakeColladaBinormals(ExportedId);
             AddInput(normals, null, "TEXBINORMAL");
         }
 
         // Texture coordinates
-        if (Options.ExportUVs)
+        for (var uvIndex = 0; uvIndex < desc.TextureCoordinates; uvIndex++)
         {
-            for (var uvIndex = 0; uvIndex < desc.TextureCoordinates; uvIndex++)
-            {
-                var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
-                AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
-            }
+            var uvs = ExportedMesh.PrimaryVertexData.MakeColladaUVs(ExportedId, uvIndex, Options.FlipUVs);
+            AddInput(uvs, null, "TEXCOORD", (ulong)uvIndex);
         }
 
         // Vertex colors
-        if (Options.ExportColors)
+        for (var colorIndex = 0; colorIndex < desc.ColorMaps; colorIndex++)
         {
-            for (var colorIndex = 0; colorIndex < desc.ColorMaps; colorIndex++)
-            {
-                var colors = ExportedMesh.PrimaryVertexData.MakeColladaColors(ExportedId, colorIndex);
-                AddInput(colors, null, "COLOR", (ulong)colorIndex);
-            }
+            var colors = ExportedMesh.PrimaryVertexData.MakeColladaColors(ExportedId, colorIndex);
+            AddInput(colors, null, "COLOR", (ulong)colorIndex);
         }
 
         // BoneWeights and BoneIndices are handled in ExportSkin()
@@ -609,18 +580,18 @@ public class ColladaExporter
         {
             throw new ParsingException("Model has no root bone!");
         }
-        
+
         return ExportBone(skeleton, name, rootIndex, skeleton.Bones[rootIndex]);
     }
 
     private void ExportModels(Root root, List<geometry> geometries, List<controller> controllers, List<node> geomNodes)
     {
         foreach (var model in root.Models ?? [])
-		{
+        {
             string skelRef = null;
             if (model.Skeleton != null && !model.Skeleton.IsDummy && model.Skeleton.Bones.Count > 1 && root.Skeletons.Any(s => s.Name == model.Skeleton.Name))
             {
-				Utils.Info($"Exporting model {model.Name} with skeleton {model.Skeleton.Name}");
+                Utils.Info($"Exporting model {model.Name} with skeleton {model.Skeleton.Name}");
                 var skeleton = ExportSkeleton(model.Skeleton, model.Name);
                 geomNodes.Add(skeleton);
                 skelRef = skeleton.id;
@@ -707,7 +678,7 @@ public class ColladaExporter
         var sampler = new sampler
         {
             id = name + "_sampler",
-            input = 
+            input =
             [
                 new InputLocal
                 {

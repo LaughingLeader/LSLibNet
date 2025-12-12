@@ -1,7 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using OpenTK.Mathematics;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace LSLib.Granny.Model;
 
@@ -18,8 +15,8 @@ public static class VertexSerializationHelpers
     public static Vector2 ReadHalfVector2(GR2Reader reader)
     {
         Vector2 v;
-        v.X = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Y = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
+        v.X = (float)reader.Reader.ReadHalf();
+        v.Y = (float)reader.Reader.ReadHalf();
         return v;
     }
 
@@ -35,18 +32,18 @@ public static class VertexSerializationHelpers
     public static Vector3 ReadHalfVector3(GR2Reader reader)
     {
         Vector3 v;
-        v.X = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Y = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Z = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
+        v.X = (float)reader.Reader.ReadHalf();
+        v.Y = (float)reader.Reader.ReadHalf();
+        v.Z = (float)reader.Reader.ReadHalf();
         return v;
     }
 
     public static Vector3 ReadHalfVector4As3(GR2Reader reader)
     {
         Vector3 v;
-        v.X = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Y = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Z = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
+        v.X = (float)reader.Reader.ReadHalf();
+        v.Y = (float)reader.Reader.ReadHalf();
+        v.Z = (float)reader.Reader.ReadHalf();
         reader.Reader.ReadUInt16();
         return v;
     }
@@ -75,10 +72,10 @@ public static class VertexSerializationHelpers
     public static Vector4 ReadHalfVector4(GR2Reader reader)
     {
         Vector4 v;
-        v.X = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Y = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.Z = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
-        v.W = HalfHelpers.HalfToSingle(reader.Reader.ReadUInt16());
+        v.X = (float)reader.Reader.ReadHalf();
+        v.Y = (float)reader.Reader.ReadHalf();
+        v.Z = (float)reader.Reader.ReadHalf();
+        v.W = (float)reader.Reader.ReadHalf();
         return v;
     }
 
@@ -154,7 +151,7 @@ public static class VertexSerializationHelpers
             quat *= bias16bit;
             quat.W = threshold16bit;
         }
-        
+
         // Encode reflection into quaternion's W element by making sign of W negative
         // if Y axis needs to be flipped, positive otherwise
         if (reflect)
@@ -172,7 +169,7 @@ public static class VertexSerializationHelpers
             2.0f * (q.X * q.Y - q.W * q.Z), 1 - 2 * (q.X * q.X + q.Z * q.Z), 2 * (q.Y * q.Z + q.W * q.X),
             0.0f, 0.0f, 0.0f
         );
-        
+
         m.Row2 = Vector3.Cross(m.Row0, m.Row1) * ((q.W < 0.0f) ? -1.0f : 1.0f);
         return m;
     }
@@ -205,8 +202,8 @@ public static class VertexSerializationHelpers
 
     public static void WriteHalfVector2(WritableSection section, Vector2 v)
     {
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.X));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Y));
+        section.Writer.Write((System.Half)v.X);
+        section.Writer.Write((System.Half)v.Y);
     }
 
     public static void WriteVector3(WritableSection section, Vector3 v)
@@ -218,16 +215,16 @@ public static class VertexSerializationHelpers
 
     public static void WriteHalfVector3(WritableSection section, Vector3 v)
     {
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.X));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Y));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Z));
+        section.Writer.Write((System.Half)v.X);
+        section.Writer.Write((System.Half)v.Y);
+        section.Writer.Write((System.Half)v.Z);
     }
 
     public static void WriteHalfVector3As4(WritableSection section, Vector3 v)
     {
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.X));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Y));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Z));
+        section.Writer.Write((System.Half)v.X);
+        section.Writer.Write((System.Half)v.Y);
+        section.Writer.Write((System.Half)v.Z);
         section.Writer.Write((ushort)0);
     }
 
@@ -249,10 +246,10 @@ public static class VertexSerializationHelpers
 
     public static void WriteHalfVector4(WritableSection section, Vector4 v)
     {
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.X));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Y));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.Z));
-        section.Writer.Write(HalfHelpers.SingleToHalf(v.W));
+        section.Writer.Write((System.Half)v.X);
+        section.Writer.Write((System.Half)v.Y);
+        section.Writer.Write((System.Half)v.Z);
+        section.Writer.Write((System.Half)v.W);
     }
 
     public static void WriteNormalByteVector4(WritableSection section, Vector4 v)
@@ -267,14 +264,14 @@ public static class VertexSerializationHelpers
         section.Writer.Write((Int16)(v.X * 32767));
         section.Writer.Write((Int16)(v.Y * 32767));
         section.Writer.Write((Int16)(v.Z * 32767));
-        section.Writer.Write(0);
+        section.Writer.Write((Int16)0);
     }
     public static void WriteNormalSByteVector3As4(WritableSection section, Vector3 v)
     {
         section.Writer.Write((sbyte)(v.X * 127));
         section.Writer.Write((sbyte)(v.Y * 127));
         section.Writer.Write((sbyte)(v.Z * 127));
-        section.Writer.Write(0);
+        section.Writer.Write((sbyte)0);
     }
 
     public static void WriteInfluences2(WritableSection section, BoneWeight v)
@@ -505,8 +502,8 @@ public static class VertexTypeBuilder
                 TypeAttributes.AutoLayout,
                 null);
         ConstructorBuilder constructor = tb.DefineDefaultConstructor(
-            MethodAttributes.Public | 
-            MethodAttributes.SpecialName | 
+            MethodAttributes.Public |
+            MethodAttributes.SpecialName |
             MethodAttributes.RTSpecialName);
 
         tb.SetParent(typeof(Vertex));

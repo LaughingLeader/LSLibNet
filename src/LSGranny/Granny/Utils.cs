@@ -1,4 +1,5 @@
 ﻿namespace LSLib.Granny;
+
 abstract class Utils
 {
     public static void Warn(string message)

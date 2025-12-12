@@ -1,6 +1,5 @@
 ﻿using LSLib.Granny.GR2;
 using LSLib.Granny.Model;
-using LSLib.LS;
 
 namespace LSLib.Granny;
 
@@ -13,23 +12,29 @@ public class GR2Utils
     public ConversionErrorDelegate ConversionError = delegate { };
     public ProgressUpdateDelegate ProgressUpdate = delegate { };
 
-    public static ExportFormat ExtensionToModelFormat(string path)
+    public static ExportFormat FileExtensionToModelFormat(string extension)
     {
-        string extension = Path.GetExtension(path)?.ToLower();
-
-        return extension switch
+        return extension.ToLower() switch
         {
             ".gr2" or ".lsm" => ExportFormat.GR2,
             ".dae" => ExportFormat.DAE,
+            ".gltf" => ExportFormat.GLTF,
+            ".glb" => ExportFormat.GLB,
             _ => throw new ArgumentException($"Unrecognized model file extension: {extension}"),
         };
+    }
+
+    public static ExportFormat PathExtensionToModelFormat(string path)
+    {
+        string extension = Path.GetExtension(path);
+        return FileExtensionToModelFormat(extension);
     }
 
     public static Root LoadModel(string inputPath)
     {
         var options = new ExporterOptions
         {
-            InputFormat = ExtensionToModelFormat(inputPath)
+            InputFormat = PathExtensionToModelFormat(inputPath)
         };
         return LoadModel(inputPath, options);
     }
@@ -39,23 +44,33 @@ public class GR2Utils
         switch (options.InputFormat)
         {
             case ExportFormat.GR2:
-            {
-                using var fs = File.Open(inputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                var root = new Root();
-                var gr2 = new GR2Reader(fs);
-                gr2.Read(root);
-                root.PostLoad(gr2.Tag);
-                return root;
-            }
+                {
+                    using var fs = File.Open(inputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    var root = new Root();
+                    var gr2 = new GR2Reader(fs);
+                    gr2.Read(root);
+                    root.PostLoad(gr2.Tag);
+                    return root;
+                }
 
             case ExportFormat.DAE:
-            {
-                var importer = new ColladaImporter
                 {
-                    Options = options
-                };
-                return importer.Import(inputPath);
-            }
+                    var importer = new ColladaImporter
+                    {
+                        Options = options
+                    };
+                    return importer.Import(inputPath);
+                }
+
+            case ExportFormat.GLTF:
+            case ExportFormat.GLB:
+                {
+                    var importer = new GLTFImporter
+                    {
+                        Options = options
+                    };
+                    return importer.Import(inputPath);
+                }
 
             default:
                 throw new ArgumentException("Invalid model format");

@@ -1,5 +1,4 @@
-﻿using OpenTK.Mathematics;
-using LSLib.Granny.GR2;
+﻿using LSLib.Granny.GR2;
 
 namespace LSLib.Granny.Model.CurveData;
 

@@ -1,5 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using OpenTK.Mathematics;
 
 namespace LSLib.Granny.Model;
 
@@ -34,6 +33,19 @@ public class Root
     [Serialization(Kind = SerializationKind.None)]
     public UInt32 GR2Tag;
 
+    public static Root CreateEmpty()
+    {
+        return new Root
+        {
+            Skeletons = [],
+            VertexDatas = [],
+            TriTopologies = [],
+            Meshes = [],
+            Models = [],
+            TrackGroups = [],
+            Animations = []
+        };
+    }
 
     public void TransformVertices(Matrix4 transformation)
     {
@@ -73,7 +85,7 @@ public class Root
         ZUp = false;
     }
 
-    public void Flip(bool flipMesh, bool flipSkeleton)
+    public void Flip(bool flipMesh, bool mirrorSkeleton)
     {
         if (flipMesh && VertexDatas != null)
         {
@@ -83,11 +95,19 @@ public class Root
             }
         }
 
-        if (flipSkeleton && Skeletons != null)
+        if (mirrorSkeleton && Skeletons != null)
         {
             foreach (var skeleton in Skeletons)
             {
-                skeleton.Flip();
+                skeleton.Mirror();
+            }
+        }
+
+        if (mirrorSkeleton && TrackGroups != null)
+        {
+            foreach (var trackGroup in TrackGroups)
+            {
+                trackGroup.Mirror();
             }
         }
 

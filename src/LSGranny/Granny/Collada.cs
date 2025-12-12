@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace LSLib.Granny;
+﻿namespace LSLib.Granny;
 
 class ColladaUtils
 {

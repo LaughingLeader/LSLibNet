@@ -1,9 +1,6 @@
 ﻿// #define DEBUG_GR2_SERIALIZATION
 // #define DEBUG_GR2_FORMAT_DIFFERENCES
 
-using System.Diagnostics;
-using LSLib.Native;
-
 namespace LSLib.Granny.GR2;
 
 public class ParsingException(string message) : Exception(message)
@@ -315,7 +312,7 @@ public class GR2Reader(Stream stream) : IDisposable
                 InputStream.Seek(section.Header.relocationsOffset, SeekOrigin.Begin);
             }
         }
-        
+
         if (section.Header.compression == 4)
         {
             using var reader = new BinaryReader(InputStream, Encoding.Default, true);

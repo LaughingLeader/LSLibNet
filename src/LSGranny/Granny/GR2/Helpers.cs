@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace LSLib.Granny.GR2;
+﻿namespace LSLib.Granny.GR2;
 
 public static class Helpers
 {

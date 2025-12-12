@@ -1,5 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using OpenTK.Mathematics;
 
 namespace LSLib.Granny.Model;
 

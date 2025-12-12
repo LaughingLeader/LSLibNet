@@ -1,6 +1,4 @@
 ﻿using LSLib.Granny.GR2;
-using LSLib.LS;
-using LSLib.LS.Enums;
 
 namespace LSLib.Granny.Model;
 
@@ -11,7 +9,9 @@ public class ExportException(string message) : Exception(message)
 public enum ExportFormat
 {
     GR2,
-    DAE
+    DAE,
+    GLTF,
+    GLB
 };
 
 public enum DivinityModelInfoFormat
@@ -48,31 +48,14 @@ public class ExporterOptions
     // have to 1:1 match the GR2 structs for that version, as it won't just
     // memcpy the struct from the GR2 file directly.
     public UInt32 VersionTag = GR2.Header.DefaultTag;
-    // Export vertex normals to DAE/GR2 file
-    public bool ExportNormals = true;
-    // Export tangents/binormals to DAE/GR2 file
-    public bool ExportTangents = true;
-    // Export UV-s to DAE/GR2 file
-    public bool ExportUVs = true;
-    // Export vertex colors to DAE/GR2 file
-    public bool ExportColors = true;
     // Flip the V coord of UV-s (GR2 stores them in flipped format)
     public bool FlipUVs = true;
-    // Recalculate normals, even if they're available in the source mesh
-    // (They'll be recalculated automatically if unavailable)
-    public bool RecalculateNormals = false;
-    // Recalculate tangents/binormals, even if they're available in the source mesh
-    // (They'll be recalculated automatically if unavailable)
-    public bool RecalculateTangents = false;
-    // Recalculate bone inverse world transforms
-    public bool RecalculateIWT = false;
     // Create a dummy skeleton if none exists in the mesh
     // Some games will crash if they encounter a mesh without a skeleton
     public bool BuildDummySkeleton = false;
     // Save 16-bit vertex indices, if possible
     public bool CompactIndices = true;
     public bool DeduplicateVertices = true; // TODO: Add Collada conforming vert. handling as well
-    public bool DeduplicateUVs = true; // TODO: UNHANDLED
     public bool ApplyBasisTransforms = true;
     // Use an obsolete version tag to prevent Granny from memory mapping the structs
     public bool UseObsoleteVersionTag = false;
@@ -82,17 +65,14 @@ public class ExporterOptions
     public bool ConformAnimations = true;
     public bool ConformMeshBoneBindings = true;
     public bool ConformModels = true;
-    public Dictionary<string, VertexDescriptor> VertexFormats = [];
     // Extended model info format to use when exporting to D:OS
     public DivinityModelInfoFormat ModelInfoFormat = DivinityModelInfoFormat.None;
     // Model flags to use when exporting
     public DivinityModelFlag ModelType = 0;
-    // Remove unused metadata from the GR2 file
-    public bool StripMetadata = true;
     // Flip mesh on X axis
     public bool FlipMesh = false;
-    // Flip skeleton on X axis
-    public bool FlipSkeleton = false;
+    // Mirror left-hand and right-hand bones on skeleton
+    public bool MirrorSkeleton = false;
     // Apply Y-up transforms on skeletons?
     public bool TransformSkeletons = true;
     // Ignore cases where we couldn't calculate tangents from UVs because of non-manifold geometry
@@ -101,7 +81,7 @@ public class ExporterOptions
     // Disabled by default, as D:OS doesn't support sparse knot values in anim curves.
     public bool RemoveTrivialAnimationKeys = false;
     // Recalculate mesh bone binding OBBs
-    public bool RecalculateOBBs = false;
+    public bool RecalculateOBBs = true;
     // Allow encoding tangents/binormals as QTangents
     // See: Spherical Skinning with Dual-Quaternions and QTangents, Crytek R&D
     public bool EnableQTangents = true;
@@ -176,6 +156,15 @@ public class Exporter
         return importer.Import(inPath);
     }
 
+    private Root LoadGLTF(string inPath)
+    {
+        var importer = new GLTFImporter
+        {
+            Options = Options
+        };
+        return importer.Import(inPath);
+    }
+
     private Root Load(string inPath, ExportFormat format)
     {
         switch (format)
@@ -185,6 +174,10 @@ public class Exporter
 
             case ExportFormat.DAE:
                 return LoadDAE(inPath);
+
+            case ExportFormat.GLTF:
+            case ExportFormat.GLB:
+                return LoadGLTF(inPath);
 
             default:
                 throw new NotImplementedException("Unsupported input format");
@@ -225,6 +218,15 @@ public class Exporter
         exporter.Export(root, options.OutputPath);
     }
 
+    private void SaveGLTF(Root root, ExporterOptions options)
+    {
+        var exporter = new GLTFExporter
+        {
+            Options = options
+        };
+        exporter.Export(root, options.OutputPath);
+    }
+
     private void Save(Root root, ExporterOptions options)
     {
         switch (options.OutputFormat)
@@ -236,6 +238,11 @@ public class Exporter
 
             case ExportFormat.DAE:
                 SaveDAE(root, options);
+                break;
+
+            case ExportFormat.GLTF:
+            case ExportFormat.GLB:
+                SaveGLTF(root, options);
                 break;
 
             default:
@@ -250,7 +257,7 @@ public class Exporter
             if (model.Skeleton == null)
             {
                 Utils.Info($"Generating dummy skeleton for model '{model.Name}'");
-                var bone = new Bone
+                var rootBone = new Bone
                 {
                     Name = model.Name,
                     ParentIndex = -1,
@@ -262,13 +269,9 @@ public class Exporter
                     Name = model.Name,
                     LODType = 1,
                     IsDummy = true,
-                    Bones = [bone]
+                    Bones = [rootBone]
                 };
                 root.Skeletons.Add(skeleton);
-
-                // TODO: Transform / IWT is not always identity on dummy bones!
-                skeleton.UpdateWorldTransforms();
-                model.Skeleton = skeleton;
 
                 foreach (var mesh in model.MeshBindings)
                 {
@@ -277,17 +280,29 @@ public class Exporter
                         throw new ParsingException("Failed to generate dummy skeleton: Mesh already has bone bindings.");
                     }
 
+                    var bone = new Bone
+                    {
+                        Name = mesh.Mesh.Name,
+                        ParentIndex = 0,
+                        Transform = new Transform()
+                    };
+                    skeleton.Bones.Add(bone);
+                    (Vector3 min, Vector3 max) = mesh.Mesh.CalculateOBB();
+
                     var binding = new BoneBinding
                     {
                         BoneName = bone.Name,
-                        // TODO: Calculate bounding box!
-                        // Use small bounding box values, as it interferes with object placement
-                        // in D:OS 2 (after the Gift Bag 2 update)
-                        OBBMin = [-0.1f, -0.1f, -0.1f],
-                        OBBMax = [0.1f, 0.1f, 0.1f]
+                        // TODO: Use oriented bounding box instead of AABB
+                        // (AABB should be fine here, as there are no transforms on the bones)
+                        OBBMin = [min.X, min.Y, min.Z],
+                        OBBMax = [max.X, max.Y, max.Z]
                     };
                     mesh.Mesh.BoneBindings = [binding];
                 }
+
+                // TODO: Transform / IWT is not always identity on dummy bones!
+                skeleton.UpdateWorldTransforms();
+                model.Skeleton = skeleton;
             }
         }
     }
@@ -318,7 +333,7 @@ public class Exporter
 
                 var keyframes = track.ToKeyframes();
                 keyframes.SwapBindPose(bone.OriginalTransform, conformingBone.Transform.ToMatrix4());
-                var newTrack = TransformTrack.FromKeyframes(keyframes);
+                var newTrack = TransformTrack.FromKeyframes(keyframes, null);
                 newTrack.Flags = track.Flags;
                 newTrack.Name = track.Name;
                 newTrack.ParentAnimation = track.ParentAnimation;
@@ -329,6 +344,8 @@ public class Exporter
 
     private void ConformSkeleton(Skeleton skeleton, Skeleton conformToSkeleton)
     {
+        // Need to copy skeleton name, as animation track groups are bound by name
+        skeleton.Name = conformToSkeleton.Name;
         skeleton.LODType = conformToSkeleton.LODType;
 
         // TODO: Tolerate missing bones?
@@ -687,6 +704,30 @@ public class Exporter
         }
     }
 
+
+    private void UpdateSkeletonLODType(Skeleton skeleton)
+    {
+        bool hasSkinnedVerts = false;
+
+        foreach (var mesh in Root.Meshes ?? [])
+        {
+            if (mesh.IsSkinned())
+            {
+                hasSkinnedVerts = true;
+            }
+        }
+
+        foreach (var track in Root.TrackGroups ?? [])
+        {
+            if (track.TransformTracks != null && track.TransformTracks.Count > 0)
+            {
+                hasSkinnedVerts = true;
+            }
+        }
+
+        skeleton.LODType = hasSkinnedVerts ? 1 : 0;
+    }
+
     public void Export()
     {
         if (Options.InputPath != null)
@@ -734,14 +775,6 @@ public class Exporter
             Root.ConvertToYUp(Options.TransformSkeletons);
         }
 
-        if (Options.RecalculateIWT && Root.Skeletons != null)
-        {
-            foreach (var skeleton in Root.Skeletons)
-            {
-                skeleton.UpdateWorldTransforms();
-            }
-        }
-
         // TODO: DeduplicateUVs
 
         if (Options.ConformGR2Path != null)
@@ -761,9 +794,14 @@ public class Exporter
             GenerateDummySkeleton(Root);
         }
 
-        if (Options.FlipMesh || Options.FlipSkeleton)
+        if (Options.FlipMesh || Options.MirrorSkeleton)
         {
-            Root.Flip(Options.FlipMesh, Options.FlipSkeleton);
+            Root.Flip(Options.FlipMesh, Options.MirrorSkeleton);
+        }
+
+        foreach (var skeleton in Root.Skeletons ?? [])
+        {
+            UpdateSkeletonLODType(skeleton);
         }
 
         // This option should be handled after everything else, as it converts Indices

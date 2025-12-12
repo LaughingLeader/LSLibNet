@@ -1,5 +1,4 @@
-﻿using OpenTK.Mathematics;
-using LSLib.Granny.GR2;
+﻿using LSLib.Granny.GR2;
 
 namespace LSLib.Granny.Model;
 
@@ -84,7 +83,8 @@ public class VertexDeduplicator
 
         var format = vertices[0].Format;
 
-        Vertices.MakeIdentityMapping(vertices.Select(v => new SkinnedVertex {
+        Vertices.MakeIdentityMapping(vertices.Select(v => new SkinnedVertex
+        {
             Position = v.Position,
             Indices = v.BoneIndices,
             Weights = v.BoneWeights
@@ -155,8 +155,10 @@ public class VertexDeduplicator
 public class VertexAnnotationSet
 {
     public string Name;
-    [Serialization(Type = MemberType.ReferenceToVariantArray)]
-    public List<object> VertexAnnotations;
+    [Serialization(Type = MemberType.ReferenceToVariantArray,
+        TypeSelector = typeof(VertexAnnotationSetSerializer), Serializer = typeof(VertexAnnotationSetSerializer),
+        Kind = SerializationKind.UserMember)]
+    public object VertexAnnotations;
     public Int32 IndicesMapFromVertexToAnnotation;
     public List<TriIndex> VertexAnnotationIndices;
 }
@@ -424,7 +426,7 @@ public class TriTopologySectionSelector : SectionSelector
         {
             return SectionType.Invalid;
         }
-}
+    }
 }
 
 public class TriTopology
@@ -494,10 +496,10 @@ public class TriTopology
         }
     }
 
-    public triangles MakeColladaTriangles(InputLocalOffset[] inputs, 
+    public triangles MakeColladaTriangles(InputLocalOffset[] inputs,
         Dictionary<int, int> positionMaps,
         Dictionary<int, int> normalMaps,
-        List<Dictionary<int, int>> uvMaps, 
+        List<Dictionary<int, int>> uvMaps,
         List<Dictionary<int, int>> colorMaps)
     {
         int numTris = (from grp in Groups
@@ -519,9 +521,9 @@ public class TriTopology
                 case "VERTEX": inputMaps.Add(positionMaps); break;
                 case "NORMAL":
                 case "TANGENT":
-                case "BINORMAL": 
+                case "BINORMAL":
                 case "TEXTANGENT":
-                case "TEXBINORMAL": 
+                case "TEXBINORMAL":
                     inputMaps.Add(normalMaps); break;
                 case "TEXCOORD": inputMaps.Add(uvMaps[uvIndex]); uvIndex++; break;
                 case "COLOR": inputMaps.Add(colorMaps[colorIndex]); colorIndex++; break;
@@ -629,6 +631,27 @@ public class MorphTarget
     public Int32 DataIsDeltas;
 }
 
+public class InfluencingJoints
+{
+    public List<int> BindJoints;
+    public List<int> SkeletonJoints;
+    public int[] BindRemaps;
+
+    public static int[] BindJointsToRemaps(List<int> joints)
+    {
+        var maxJoint = joints.Count > 0 ? joints.Max() + 1 : 0;
+        var remaps = new int[maxJoint];
+        var i = 0;
+
+        foreach (var joint in joints)
+        {
+            remaps[joint] = i++;
+        }
+
+        return remaps;
+    }
+}
+
 public class Mesh
 {
     public string Name;
@@ -659,7 +682,10 @@ public class Mesh
             VertexFormat = PrimaryVertexData.Vertices[0].Format;
         }
 
-        if (ExtendedData != null && ExtendedData.UserMeshProperties.MeshFlags == 0)
+        if (ExtendedData != null
+            && ExtendedData.UserMeshProperties != null
+            && ExtendedData.UserMeshProperties.Flags[0] == 0
+            && ExtendedData.UserMeshProperties.NewlyAdded)
         {
             ExtendedData.UserMeshProperties.MeshFlags = AutodetectMeshFlags();
         }
@@ -668,14 +694,14 @@ public class Mesh
     {
         DivinityModelFlag flags = 0;
 
-        if (ExtendedData != null 
+        if (ExtendedData != null
             && ExtendedData.UserMeshProperties != null
             && ExtendedData.UserMeshProperties.MeshFlags != 0)
         {
             return ExtendedData.UserMeshProperties.MeshFlags;
         }
 
-        if (ExtendedData != null 
+        if (ExtendedData != null
             && ExtendedData.UserDefinedProperties != null)
         {
             flags = UserDefinedPropertiesHelpers.UserDefinedPropertiesToMeshType(ExtendedData.UserDefinedProperties);
@@ -740,5 +766,59 @@ public class Mesh
         }
 
         return hasWeights && hasIndices;
+    }
+
+    public InfluencingJoints GetInfluencingJoints(Skeleton skeleton)
+    {
+        HashSet<int> joints = [];
+
+        foreach (var vert in PrimaryVertexData.Vertices)
+        {
+            if (vert.BoneWeights.A > 0) joints.Add(vert.BoneIndices.A);
+            if (vert.BoneWeights.B > 0) joints.Add(vert.BoneIndices.B);
+            if (vert.BoneWeights.C > 0) joints.Add(vert.BoneIndices.C);
+            if (vert.BoneWeights.D > 0) joints.Add(vert.BoneIndices.D);
+        }
+
+        var ij = new InfluencingJoints();
+        ij.BindJoints = joints.Order().ToList();
+        ij.SkeletonJoints = [];
+        foreach (var bindIndex in ij.BindJoints)
+        {
+            var binding = BoneBindings[bindIndex].BoneName;
+            var jointIndex = skeleton.Bones.FindIndex((bone) => bone.Name == binding);
+            if (jointIndex == -1)
+            {
+                throw new ParsingException($"Couldn't find bind bone {binding} in parent skeleton.");
+            }
+
+            ij.SkeletonJoints.Add(jointIndex);
+        }
+
+        ij.BindRemaps = InfluencingJoints.BindJointsToRemaps(ij.BindJoints);
+        return ij;
+    }
+
+    public Tuple<Vector3, Vector3> CalculateOBB()
+    {
+        if (PrimaryVertexData.Vertices.Count == 0)
+        {
+            throw new ParsingException("Cannot calculate OBB for mesh with no vertices!");
+        }
+
+        var min = new Vector3(9999999.0f, 9999999.0f, 9999999.0f);
+        var max = new Vector3(-9999999.0f, -9999999.0f, -9999999.0f);
+
+        foreach (var vert in PrimaryVertexData.Vertices)
+        {
+            min.X = Math.Min(vert.Position.X, min.X);
+            max.X = Math.Max(vert.Position.X, max.X);
+            min.Y = Math.Min(vert.Position.Y, min.Y);
+            max.Y = Math.Max(vert.Position.Y, max.Y);
+            min.Z = Math.Min(vert.Position.Z, min.Z);
+            max.Z = Math.Max(vert.Position.Z, max.Z);
+        }
+
+        return new Tuple<Vector3, Vector3>(min, max);
     }
 }

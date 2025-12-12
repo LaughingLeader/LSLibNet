@@ -1,6 +1,5 @@
 ﻿using LSLib.Granny.GR2;
 using LSLib.Granny.Model;
-using OpenTK.Mathematics;
 
 namespace LSLib.Granny;
 
@@ -91,7 +90,7 @@ public class ColladaAnimation
         if (Transforms.Count != Times.Count)
             throw new ParsingException("Animation " + Animation.id + " has different time and transform counts!");
 
-        for (var i = 0; i < Transforms.Count; i++ )
+        for (var i = 0; i < Transforms.Count; i++)
         {
             var m = Transforms[i];
             m.Transpose();
@@ -147,7 +146,7 @@ public class ColladaAnimation
         ImportChannel(skeleton);
         return true;
     }
-    
+
     public TransformTrack MakeTrack(bool removeTrivialKeys)
     {
         var keyframes = KeyframeTrack.FromMatrices(Times, Transforms);
@@ -160,7 +159,7 @@ public class ColladaAnimation
             keyframes.RemoveTrivialFrames();
         }
 
-        var track = TransformTrack.FromKeyframes(keyframes);
+        var track = TransformTrack.FromKeyframes(keyframes, null);
         track.Flags = 0;
         track.Name = BoneName;
 
