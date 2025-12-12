@@ -1,4 +1,6 @@
-﻿namespace LSLib.LS;
+﻿using LSLib.LS.Pak;
+
+namespace LSLib.LS;
 
 public class VFSDirectory
 {

@@ -1,8 +1,6 @@
 ﻿// #define DEBUG_LSF_SERIALIZATION
 // #define DUMP_LSF_SERIALIZATION
 
-using LSLib.LS.Enums;
-
 namespace LSLib.LS;
 
 public class LSFReader(Stream stream, bool keepOpen = false) : IDisposable

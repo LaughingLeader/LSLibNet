@@ -6,7 +6,7 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  LL-GAME
-//  DateTime: 12/12/2025 12:47:24 AM
+//  DateTime: 12/12/2025 1:04:15 AM
 //  UserName: LaughingLeader
 //  GPLEX input file <C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.lex - 12/11/2025 11:27:08 PM>
 //  GPLEX frame file <embedded resource>

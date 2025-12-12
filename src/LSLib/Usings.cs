@@ -5,5 +5,6 @@ global using System.Linq;
 global using System.Runtime.Serialization;
 global using System.Threading;
 global using System.Threading.Tasks;
+global using LSLib.LS.Enums;
 global using Newtonsoft.Json;
 global using OpenTK.Mathematics;

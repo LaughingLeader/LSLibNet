@@ -4,7 +4,7 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 12/12/2025 12:47:24 AM
+// DateTime: 12/12/2025 1:04:15 AM
 // UserName: LaughingLeader
 // Input file <C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy - 12/11/2025 11:27:08 PM>
 

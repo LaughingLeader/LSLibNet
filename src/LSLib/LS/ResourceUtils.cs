@@ -1,6 +1,4 @@
-﻿using LSLib.LS.Enums;
-
-namespace LSLib.LS;
+﻿namespace LSLib.LS;
 
 public class ResourceLoadParameters
 {
