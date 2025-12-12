@@ -10,7 +10,7 @@ public class Package : IDisposable
 	internal MemoryMappedViewAccessor[]? Views { get; private set; }
 
 	public string PackagePath { get; }
-	public PackageHeaderCommon? Metadata { get; private set; }
+	public PackageHeaderCommon? Metadata { get; internal set; }
 	public List<PackagedFileInfo> Files { get; }
 
 	public PackageVersion? Version => (PackageVersion?)(Metadata?.Version);
