@@ -2,37 +2,27 @@
 using System.IO.Compression;
 using System.IO.MemoryMappedFiles;
 
+using K4os.Compression.LZ4;
+using K4os.Compression.LZ4.Streams;
+
 namespace LSLib.LS;
 
-
-public class LZ4DecompressionStream : Stream
+public class LZ4DecompressionStream(MemoryMappedViewAccessor view, long offset, int size, int decompressedSize) : Stream
 {
-	private readonly MemoryMappedViewAccessor View;
-	private readonly long Offset;
-	private readonly int Size;
-	private readonly int DecompressedSize;
-	private MemoryStream Decompressed;
-
-	public LZ4DecompressionStream(MemoryMappedViewAccessor view, long offset, int size, int decompressedSize)
-	{
-		View = view;
-		Offset = offset;
-		Size = size;
-		DecompressedSize = decompressedSize;
-	}
+	private MemoryStream? _decompressed;
 
 	private void DoDecompression()
 	{
-		var compressed = new byte[Size];
-		View.ReadArray(Offset, compressed, 0, Size);
+		var compressed = new byte[size];
+		view.ReadArray(offset, compressed, 0, size);
 
-		var decompressed = new byte[DecompressedSize];
-		int length = LZ4Codec.Decode(compressed, 0, compressed.Length, decompressed, 0, DecompressedSize);
-		if (length != DecompressedSize)
+		var decompressed = new byte[decompressedSize];
+		int length = LZ4Codec.Decode(compressed, 0, compressed.Length, decompressed, 0, decompressedSize);
+		if (length != decompressedSize)
 		{
 			throw new Exception("Failed to decompress LZ4 stream");
 		}
-		Decompressed = new MemoryStream(decompressed);
+		_decompressed = new MemoryStream(decompressed);
 	}
 
 	public override bool CanRead { get { return true; } }
@@ -40,40 +30,37 @@ public class LZ4DecompressionStream : Stream
 
 	public override int Read(byte[] buffer, int offset, int count)
 	{
-		if (Decompressed == null)
+		if (_decompressed == null)
 		{
 			DoDecompression();
 		}
 
-		return Decompressed.Read(buffer, offset, count);
+		return _decompressed?.Read(buffer, offset, count) ?? 0;
 	}
 
 	public override long Seek(long offset, SeekOrigin origin)
 	{
-		if (Decompressed == null) DoDecompression();
+		if (_decompressed == null) DoDecompression();
 
-		return Decompressed.Seek(offset, origin);
+		return _decompressed?.Seek(offset, origin) ?? 0;
 	}
 
 
 	public override long Position
 	{
-		get { return Decompressed?.Position ?? 0; }
+		get { return _decompressed?.Position ?? 0; }
 		set
 		{
-			if (Decompressed != null)
-			{
-				Decompressed.Position = value;
-			}
+			_decompressed?.Position = value;
 		}
 	}
 
 	public override bool CanTimeout { get { return false; } }
 	public override bool CanWrite { get { return false; } }
-	public override long Length { get { return DecompressedSize; } }
-	public override void SetLength(long value) => Decompressed?.SetLength(value);
-	public override void Write(byte[] buffer, int offset, int count) => Decompressed?.Write(buffer, offset, count);
-	public override void Flush() => Decompressed?.Flush();
+	public override long Length { get { return decompressedSize; } }
+	public override void SetLength(long value) => _decompressed?.SetLength(value);
+	public override void Write(byte[] buffer, int offset, int count) => _decompressed?.Write(buffer, offset, count);
+	public override void Flush() => _decompressed?.Flush();
 }
 
 public static class CompressionHelpers

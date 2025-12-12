@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Text;
 using LSLib.Parser;
 using LSLib.Stats.Functors;
 using LSLib.Stats.RollConditions;

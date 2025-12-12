@@ -1,4 +1,4 @@
-using System.IO.MemoryMappedFiles;
+﻿using System.IO.MemoryMappedFiles;
 using LSLib.LS.Enums;
 
 namespace LSLib.LS;

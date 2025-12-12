@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -17,8 +17,17 @@
 		<FileVersion>1.18.5.0</FileVersion>
 		<PlatformTarget>x64</PlatformTarget>
 	</PropertyGroup>
+
+    <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DefineConstants>TRACE;DEBUG;EXPORT_GPPG</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DefineConstants>EXPORT_GPPG</DefineConstants>
+    </PropertyGroup>-->
 	
 	<ItemGroup>
+		<PackageReference Include="DotFastLZ.Compression" />
 		<PackageReference Include="K4os.Compression.LZ4" />
 		<PackageReference Include="K4os.Compression.LZ4.Streams" />
 		<PackageReference Include="Newtonsoft.Json" />

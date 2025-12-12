@@ -33,7 +33,7 @@ public class Compiler
 				return;
 			}
 
-			object paramName = (param.Name != null) ? (object)param.Name : paramIndex;
+			object paramName = (param.Name != null) ? param.Name : paramIndex;
 			Context.Log.Error(value.Location,
 				DiagnosticCode.LocalTypeMismatch,
 				"Parameter {0} of {1} \"{2}\" expects {3}; {4} specified",
@@ -43,7 +43,7 @@ public class Compiler
 
 		if (IsGuidAliasToAliasCast(param.Type, value.Type))
 		{
-			object paramName = (param.Name != null) ? (object)param.Name : paramIndex;
+			object paramName = (param.Name != null) ? param.Name : paramIndex;
 			Context.Log.Error(value.Location,
 				DiagnosticCode.GuidAliasMismatch,
 				"Parameter {0} of {1} \"{2}\" has GUID type {3}; {4} specified",
@@ -352,7 +352,7 @@ public class Compiler
 				|| (conditionIndex != -1 && ruleVar.FirstBindingIndex >= conditionIndex)
 			)
 			{
-				object paramName = (param.Name != null) ? (object)param.Name : (parameterIndex + 1);
+				object paramName = (param.Name != null) ? param.Name : (parameterIndex + 1);
 				if (!ruleVar.IsUnused())
 				{
 					Context.Log.Error(variable.Location,
@@ -493,7 +493,7 @@ public class Compiler
 
 	private Value.Type IntrinsicTypeToCompatibilityType(Value.Type typeId)
 	{
-		switch ((Value.Type)typeId)
+		switch (typeId)
 		{
 			case Value.Type.Integer:
 			case Value.Type.Integer64:
@@ -816,7 +816,7 @@ public class Compiler
 
 	private ValueType DetermineSignature(IRConstant value)
 	{
-		var irConst = value as IRConstant;
+		var irConst = value;
 		if (irConst.Type != null)
 		{
 			return Context.LookupType(irConst.Type.Name);

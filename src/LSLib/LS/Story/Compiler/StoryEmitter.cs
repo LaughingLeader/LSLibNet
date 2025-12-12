@@ -46,7 +46,7 @@ public class StoryEmitter
 			osiType.Index = (byte)type.Value.TypeId;
 			if (type.Value.TypeId == (uint)type.Value.IntrinsicTypeId)
 			{
-				osiType.Alias = (byte)0;
+				osiType.Alias = 0;
 				osiType.IsBuiltin = true;
 			}
 			else
@@ -683,7 +683,7 @@ public class StoryEmitter
 			{
 				if (!allowPartialPhysicalRow)
 				{
-					adapter.LogicalIndices.Add((sbyte)-1);
+					adapter.LogicalIndices.Add(-1);
 				}
 			}
 			else
@@ -708,14 +708,14 @@ public class StoryEmitter
 				var osiConst = EmitValue(param as IRConstant);
 				adapter.Constants.Physical.Add(osiConst);
 				adapter.Constants.Logical.Add(i, osiConst);
-				adapter.LogicalIndices.Add((sbyte)-1);
+				adapter.LogicalIndices.Add(-1);
 			}
 			else
 			{
 				var variable = param as IRVariable;
 				if (rule.Variables[variable.Index].IsUnused())
 				{
-					adapter.LogicalIndices.Add((sbyte)-1);
+					adapter.LogicalIndices.Add(-1);
 				}
 				else
 				{
@@ -747,11 +747,11 @@ public class StoryEmitter
 		else if (node is RelOpNode)
 		{
 			// (node as RelOpNode).AdapterRef.Resolve().LogicalIndices.Count
-			return EmitIdentityMappingAdapter(rule, (int)condition.TupleSize, true);
+			return EmitIdentityMappingAdapter(rule, condition.TupleSize, true);
 		}
 		else if (node is JoinNode)
 		{
-			return EmitIdentityMappingAdapter(rule, (int)condition.TupleSize, true);
+			return EmitIdentityMappingAdapter(rule, condition.TupleSize, true);
 		}
 		else
 		{
@@ -784,7 +784,7 @@ public class StoryEmitter
 		Database db = null;
 		if (left.DatabaseRef.IsValid && right.DatabaseRef.IsValid)
 		{
-			db = EmitIntermediateDatabase(rule, (int)rightCondition.TupleSize, null);
+			db = EmitIntermediateDatabase(rule, rightCondition.TupleSize, null);
 			if (db != null)
 			{
 				database = new DatabaseReference(Story, db);
@@ -913,7 +913,7 @@ public class StoryEmitter
 		Database db = null;
 		if (previousNode.DatabaseRef.IsValid)
 		{
-			db = EmitIntermediateDatabase(rule, (int)condition.TupleSize, null);
+			db = EmitIntermediateDatabase(rule, condition.TupleSize, null);
 			database = new DatabaseReference(Story, db);
 		}
 		else
@@ -1025,7 +1025,7 @@ public class StoryEmitter
 		Database db = null;
 		if (previousNode.DatabaseRef.IsValid)
 		{
-			db = EmitIntermediateDatabase(rule, (int)rule.Variables.Count, null);
+			db = EmitIntermediateDatabase(rule, rule.Variables.Count, null);
 			if (db != null)
 			{
 				database = new DatabaseReference(Story, db);

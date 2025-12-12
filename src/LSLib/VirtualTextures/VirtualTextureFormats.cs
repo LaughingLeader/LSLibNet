@@ -45,7 +45,7 @@ public struct DDSHeader
 
 		set
 		{
-			dwFourCC = (uint)value[0]
+			dwFourCC = value[0]
 				| ((uint)value[1] << 8)
 				| ((uint)value[2] << 16)
 				| ((uint)value[3] << 24);
@@ -304,7 +304,7 @@ public struct GTSFourCCMetadata
 
 		set
 		{
-			FourCC = (uint)value[0]
+			FourCC = value[0]
 				| ((uint)value[1] << 8)
 				| ((uint)value[2] << 16)
 				| ((uint)value[3] << 24);

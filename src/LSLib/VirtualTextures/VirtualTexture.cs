@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using DotFastLZ.Compression;
 using LSLib.LS;
 
 namespace LSLib.VirtualTextures;
@@ -256,7 +257,7 @@ public class TileSetFourCC
 
 					// Re-write node header with final node size
 					fs.Position = lengthOffset;
-					writer.Write((UInt32)childrenSize);
+					writer.Write(childrenSize);
 					fs.Position = endOffset;
 
 					break;
@@ -351,7 +352,10 @@ public class VirtualTileSet : IDisposable
 			fs.Position = (uint)thumb.OffsetInFile;
 			var inb = new byte[thumb.CompressedSize];
 			reader.Read(inb, 0, inb.Length);
-			var thumbnailBlob = Native.FastLZCompressor.Decompress(inb, Math.Max(thumb.Unknown2, thumb.Unknown3) * 0x100);
+
+			var thumbnailLength = Math.Max(thumb.Unknown2, thumb.Unknown3) * 0x100;
+			var thumbnailBlob = new byte[thumbnailLength];
+			FastLZ.Decompress(inb, thumb.CompressedSize, thumbnailBlob, thumbnailLength);
 
 			var numSections = reader.ReadUInt32();
 			var parameterBlockSize = reader.ReadUInt32();

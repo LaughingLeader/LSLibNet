@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO.Hashing;
+using System.Security.Cryptography;
 using LSLib.LS.Enums;
 
 namespace LSLib.LS;
@@ -132,7 +133,7 @@ abstract public class PackageWriter : IDisposable
 
 	protected List<PackageBuildTransientFile> PackFiles()
 	{
-		long totalSize = Build.Files.Sum(p => (long)p.Size());
+		long totalSize = Build.Files.Sum(p => p.Size());
 		long currentSize = 0;
 
 		var writtenFiles = new List<PackageBuildTransientFile>();

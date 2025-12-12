@@ -23,7 +23,7 @@ public class Story
 	{
 		get
 		{
-			return ((uint)MajorVersion << 8) | (uint)MinorVersion;
+			return ((uint)MajorVersion << 8) | MinorVersion;
 		}
 	}
 

@@ -100,7 +100,7 @@ public class OsiReader : BinaryReader
 
 	public uint Ver
 	{
-		get { return ((uint)MajorVersion << 8) | (uint)MinorVersion; }
+		get { return (MajorVersion << 8) | MinorVersion; }
 	}
 
 	public OsiReader(Stream stream, Story story)
@@ -227,7 +227,7 @@ public class OsiWriter : BinaryWriter
 
 	public uint Ver
 	{
-		get { return ((uint)MajorVersion << 8) | (uint)MinorVersion; }
+		get { return (MajorVersion << 8) | MinorVersion; }
 	}
 
 	public OsiWriter(Stream stream, bool leaveOpen)
@@ -278,7 +278,7 @@ public class SaveFileHeader : OsirisSerializable
 
 	public uint Ver
 	{
-		get { return ((uint)MajorVersion << 8) | (uint)MinorVersion; }
+		get { return ((uint)MajorVersion << 8) | MinorVersion; }
 	}
 
 	public void Read(OsiReader reader)

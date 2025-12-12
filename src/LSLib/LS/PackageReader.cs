@@ -1,4 +1,6 @@
-﻿using System.IO.MemoryMappedFiles;
+﻿using System.Buffers;
+using System.IO.MemoryMappedFiles;
+using K4os.Compression.LZ4.Streams;
 using LSLib.LS.Enums;
 
 namespace LSLib.LS;
@@ -186,7 +188,7 @@ public class PackageReader
 
 		foreach (var entry in Pak.Files)
 		{
-			var file = entry as PackagedFileInfo;
+			var file = entry;
 
 			totalUncompressedSize += file.UncompressedSize;
 			totalSizeOnDisk += file.SizeOnDisk;
@@ -210,15 +212,17 @@ public class PackageReader
 		byte[] frame = new byte[lastOffset - Pak.Metadata.DataOffset];
 		view.ReadArray(Pak.Metadata.DataOffset, frame, 0, (int)(lastOffset - Pak.Metadata.DataOffset));
 
-		byte[] decompressed = Native.LZ4FrameCompressor.Decompress(frame);
-		var decompressedStream = new MemoryStream(decompressed);
+		//byte[] decompressed = Native.LZ4FrameCompressor.Decompress(frame);
+		//var decompressedStream = new MemoryStream(decompressed);
+		var decoded = LZ4Frame.Decode(frame.AsSpan(), new ArrayBufferWriter<byte>()).WrittenMemory.ToArray();
+		var decompressedStream = new MemoryStream(decoded);
 
 		// Update offsets to point to the decompressed chunk
 		ulong offset = Pak.Metadata.DataOffset + 7;
 		ulong compressedOffset = 0;
 		foreach (var entry in Pak.Files)
 		{
-			var file = entry as PackagedFileInfo;
+			var file = entry;
 
 			if (file.OffsetInFile != offset)
 			{

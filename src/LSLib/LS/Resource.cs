@@ -43,10 +43,10 @@ public struct PackedVersion
 
 	public readonly Int64 ToVersion64()
 	{
-		return (Int64)(((Int64)Major & 0x7f) << 55 |
+		return ((Int64)Major & 0x7f) << 55 |
 			((Int64)Minor & 0xff) << 47 |
 			((Int64)Revision & 0xffff) << 31 |
-			((Int64)Build & 0x7fffffff) << 0);
+			((Int64)Build & 0x7fffffff) << 0;
 	}
 }
 

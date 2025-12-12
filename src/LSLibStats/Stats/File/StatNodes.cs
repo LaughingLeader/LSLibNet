@@ -8,7 +8,7 @@ namespace LSLib.Stats.StatParser;
 public class StatDeclaration
 {
 	public CodeLocation? Location = null;
-	public Dictionary<String, StatProperty> Properties = [];
+	public Dictionary<string, StatProperty> Properties = [];
 	public bool WasValidated = false;
 }
 

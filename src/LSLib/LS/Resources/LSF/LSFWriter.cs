@@ -525,7 +525,7 @@ public class LSFWriter(Stream stream)
 	private void WriteStringWithLength(BinaryWriter writer, string s)
 	{
 		byte[] utf = Encoding.UTF8.GetBytes(s);
-		writer.Write((Int32)(utf.Length + 1));
+		writer.Write(utf.Length + 1);
 		writer.Write(utf);
 		writer.Write((Byte)0);
 	}

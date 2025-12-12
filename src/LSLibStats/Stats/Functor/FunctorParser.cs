@@ -1,5 +1,4 @@
-﻿using System.Text;
-using LSLib.Parser;
+﻿using LSLib.Parser;
 
 namespace LSLib.Stats.Functors;
 
@@ -176,7 +175,7 @@ public partial class FunctorParser
 	private Functor MakeFunctor(object context, object condition, object action) => new Functor
 	{
 		Context = (string)context,
-		Condition = condition as object,
+		Condition = condition,
 		Action = action as FunctorAction
 	};
 

@@ -54,6 +54,7 @@ internal class ParserConstants
 }
 
 public abstract class GoalScanBase : AbstractScanner<Object, CodeLocation>
+
 {
 	protected String fileName;
 

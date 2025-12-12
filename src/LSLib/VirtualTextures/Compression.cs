@@ -1,4 +1,5 @@
-﻿using LSLib.LS;
+﻿using DotFastLZ.Compression;
+using LSLib.LS;
 
 namespace LSLib.VirtualTextures;
 
@@ -51,7 +52,11 @@ public class TileCompressor
 
 	public static byte[] CompressLZ77(byte[] raw, bool fast)
 	{
-		return Native.FastLZCompressor.Compress(raw, fast ? 0 : 2);
+		//return Native.FastLZCompressor.Compress(raw, fast ? 0 : 2);
+		var estimateSize = FastLZ.EstimateCompressedSize(raw.Length);
+		var output = new byte[estimateSize];
+		FastLZ.CompressLevel(fast ? 0 : 2, raw, raw.Length, output);
+		return output;
 	}
 
 	public byte[] Compress(byte[] uncompressed, bool fast, out TileCompressionMethod method)
@@ -141,7 +146,10 @@ public class TileCompressor
 			case TileCompressionMethod.LZ4:
 				return CompressionHelpers.Decompress(compressed, outputSize, CompressionFlags.MethodLZ4);
 			case TileCompressionMethod.LZ77:
-				return Native.FastLZCompressor.Decompress(compressed, outputSize);
+				//return Native.FastLZCompressor.Decompress(compressed, outputSize);
+				var output = new byte[outputSize];
+				FastLZ.Decompress(compressed, compressed.Length, output, outputSize);
+				return output;
 			default:
 				throw new ArgumentException();
 		}

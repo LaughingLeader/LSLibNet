@@ -1,4 +1,4 @@
-namespace LSLib.LS;
+﻿namespace LSLib.LS;
 
 public class FileManager
 {
