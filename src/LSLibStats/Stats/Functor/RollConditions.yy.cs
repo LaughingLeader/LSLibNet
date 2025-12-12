@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:58 PM
+// DateTime: 12/11/2025 11:30:01 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy - 12/11/2025 11:26:13 PM>
 
 // options: lines
 
@@ -87,37 +87,37 @@ public partial class RollConditionParser: ShiftReduceParser<System.Object, LexLo
     switch (action)
     {
       case 3: // RollConditions -> RollConditionOrEmpty
-#line 19 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 19 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                                       { CurrentSemanticValue = AddCondition(MakeConditions(), ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 4: // RollConditions -> RollConditions, ';', RollConditionOrEmpty
-#line 20 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 20 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                                                          { CurrentSemanticValue = AddCondition(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 7: // RollCondition -> NAME, '[', Expression, ']'
-#line 27 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 27 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                                         { CurrentSemanticValue = MakeCondition(ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2]); }
 #line default
         break;
       case 10: // RollCondition -> NAME, Expression
-#line 30 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 30 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                                 { CurrentSemanticValue = ConcatExpression(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 11: // RollCondition -> TEXT, Expression
-#line 31 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 31 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                                 { CurrentSemanticValue = ConcatExpression(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 14: // Expression -> Expression, NAME
-#line 36 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 36 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                              { CurrentSemanticValue = ConcatExpression(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 15: // Expression -> Expression, TEXT
-#line 37 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\RollConditions.yy"
+#line 37 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\RollConditions.yy"
                              { CurrentSemanticValue = ConcatExpression(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;

@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:57 PM
+// DateTime: 12/11/2025 11:30:00 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy - 12/11/2025 11:26:13 PM>
 
 // options: lines
 
@@ -190,132 +190,132 @@ public partial class FunctorParser: ShiftReduceParser<System.Object, LexLocation
     switch (action)
     {
       case 2: // Root -> EXPR_FUNCTORS, TopLevelFunctors
-#line 31 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 31 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                       { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 3: // Root -> EXPR_DESCRIPTION_PARAMS, OptionalArgs
-#line 32 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 32 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                             { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 4: // TopLevelFunctors -> /* empty */
-#line 41 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 41 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                { CurrentSemanticValue = MakeFunctorList(); }
 #line default
         break;
       case 5: // TopLevelFunctors -> TopLevelFunctor
-#line 42 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 42 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                    { CurrentSemanticValue = AddFunctor(MakeFunctorList(), ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 7: // TopLevelFunctors -> TopLevelFunctors, ';', TopLevelFunctor
-#line 44 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 44 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                                         { CurrentSemanticValue = AddFunctor(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 8: // TopLevelFunctor -> Contexts, Condition, CallOrTextKeyFunctor
-#line 47 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 47 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                                           { CurrentSemanticValue = MakeFunctorOrTextKeyFunctors(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 9: // CallOrTextKeyFunctor -> NAME, '[', Functors, ']'
-#line 49 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 49 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                              { CurrentSemanticValue = SetTextKey(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-4]); }
 #line default
         break;
       case 11: // Functors -> /* empty */
-#line 53 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 53 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                        { CurrentSemanticValue = MakeFunctorList(); }
 #line default
         break;
       case 12: // Functors -> Functor
-#line 54 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 54 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                    { CurrentSemanticValue = AddFunctor(MakeFunctorList(), ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 14: // Functors -> Functors, ';', Functor
-#line 56 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 56 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                 { CurrentSemanticValue = AddFunctor(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 15: // Functor -> Contexts, Condition, Call
-#line 59 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 59 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                   { CurrentSemanticValue = MakeFunctor(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 17: // Contexts -> ContextList
-#line 62 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 62 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                        { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 18: // ContextList -> Context
-#line 65 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 65 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                       { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 19: // ContextList -> ContextList, Context
-#line 66 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 66 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                   { CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; }
 #line default
         break;
       case 20: // Context -> CONTEXT, ':'
-#line 69 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 69 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                       { CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; }
 #line default
         break;
       case 22: // Condition -> IF, '(', NonEmptyArg, ')', ':'
-#line 72 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 72 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                        { CurrentSemanticValue = ValueStack[ValueStack.Depth-3]; }
 #line default
         break;
       case 23: // Call -> FunctorName, OptionalArgList
-#line 75 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 75 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                    { CurrentSemanticValue = MakeAction(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 24: // FunctorName -> NAME
-#line 77 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 77 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                    { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; MarkActionStart(); }
 #line default
         break;
       case 25: // OptionalArgList -> /* empty */
-#line 79 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 79 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                               { CurrentSemanticValue = MakeArgumentList(); }
 #line default
         break;
       case 26: // OptionalArgList -> '(', OptionalArgs, ')'
-#line 80 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 80 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                        { CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; }
 #line default
         break;
       case 27: // OptionalArgs -> /* empty */
-#line 83 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 83 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                            { CurrentSemanticValue = MakeArgumentList(); }
 #line default
         break;
       case 29: // Args -> NonEmptyArg
-#line 87 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 87 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                    { CurrentSemanticValue = AddArgument(MakeArgumentList(), ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 30: // Args -> Args, ',', Arg
-#line 88 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 88 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                     { CurrentSemanticValue = AddArgument(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 33: // NonEmptyArg -> ArgStart, LuaRoot, ArgEnd
-#line 95 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 95 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                                       { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 34: // ArgStart -> /* empty */
-#line 97 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 97 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                        { InitLiteral(); }
 #line default
         break;
       case 35: // ArgEnd -> /* empty */
-#line 99 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Functor.yy"
+#line 99 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Functor.yy"
                      { CurrentSemanticValue = MakeLiteral(); }
 #line default
         break;

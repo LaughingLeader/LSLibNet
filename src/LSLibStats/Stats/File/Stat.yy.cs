@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:56 PM
+// DateTime: 12/11/2025 11:30:00 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy - 12/11/2025 11:26:13 PM>
 
 // options: lines
 
@@ -401,42 +401,42 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
     switch (action)
     {
       case 3: // Declarations -> /* empty */
-#line 99 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 99 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                            { CurrentSemanticValue = MakeDeclarationList(); }
 #line default
         break;
       case 4: // Declarations -> Declarations, Declaration
-#line 100 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 100 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                         { CurrentSemanticValue = AddDeclaration(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 5: // Declarations -> Declarations, TreasureTypesDeclaration
-#line 101 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 101 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                      { CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; }
 #line default
         break;
       case 8: // DataDeclaration -> EntryHeader, EntryProperties
-#line 108 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 108 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                               { CurrentSemanticValue = AddProperty(ValueStack[ValueStack.Depth-1], ValueStack[ValueStack.Depth-2]); }
 #line default
         break;
       case 9: // EntryProperties -> /* empty */
-#line 110 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 110 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                               { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan); }
 #line default
         break;
       case 10: // EntryProperties -> EntryProperties, EntryProperty
-#line 111 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 111 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                 { CurrentSemanticValue = AddProperty(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 27: // EntryStdHeader -> NEW, ENTRY, STRING
-#line 131 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 131 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                   { CurrentSemanticValue = MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 28: // DataKeyHeader -> KEY, STRING, ',', STRING
-#line 134 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 134 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "Key", ValueStack[ValueStack.Depth-3]),
 					MakeProperty("EntityType", "Data"),
@@ -446,7 +446,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
         break;
       case 29: // AbilityHeader -> ABILITY, NAME, ',', INTEGER, ',', INTEGER, ',', INTEGER, ',', 
                //                  INTEGER, ',', INTEGER, ',', INTEGER, ',', INTEGER
-#line 142 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 142 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-15], "Name", ValueStack[ValueStack.Depth-15]),
 					MakeProperty("EntityType", "Ability")
@@ -454,7 +454,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 30: // RequirementsHeader -> REQUIREMENT, STRING, ',', STRING
-#line 148 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 148 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "Name", ValueStack[ValueStack.Depth-3]),
 					MakeProperty("EntityType", "Requirement"),
@@ -463,7 +463,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 31: // DeltaModHeader -> NEW, DELTAMOD, STRING
-#line 155 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 155 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "DeltaModifier")
@@ -471,7 +471,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 32: // ItemCombinationHeader -> NEW, ITEM_COMBINATION, STRING
-#line 161 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 161 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "ItemCombination")
@@ -479,7 +479,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 33: // ItemCombinationResultHeader -> NEW, ITEM_COMBINATION_RESULT, STRING
-#line 167 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 167 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "ItemCombinationResult")
@@ -488,7 +488,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
         break;
       case 34: // ItemColorHeader -> NEW, ITEMCOLOR, STRING, ',', STRING, ',', STRING, ',', 
                //                    STRING
-#line 173 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 173 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-7], "ItemColorName", ValueStack[ValueStack.Depth-7]),
 					MakeProperty("EntityType", "ItemColor"),
@@ -499,7 +499,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 35: // ItemProgressionNamesHeader -> NEW, NAMEGROUP, STRING
-#line 182 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 182 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "ItemProgressionNames")
@@ -507,7 +507,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 36: // ItemProgressionVisualsHeader -> NEW, ITEMGROUP, STRING
-#line 188 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 188 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "ItemProgressionVisuals")
@@ -515,7 +515,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 37: // EquipmentHeader -> NEW, EQUIPMENT, STRING
-#line 194 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 194 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "Equipment")
@@ -523,7 +523,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 38: // ItemComboPropertyHeader -> NEW, ITEMCOMBOPROPERTY, STRING
-#line 200 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 200 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "ItemComboProperties")
@@ -531,14 +531,14 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 39: // ObjectCategoryItemComboPreviewDataHeader -> NEW, CRAFTING_PREVIEW_DATA, STRING
-#line 206 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 206 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1])
 				}); }
 #line default
         break;
       case 40: // SkillSetHeader -> NEW, SKILLSET, STRING
-#line 211 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 211 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-1], "Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "SkillSet")
@@ -546,7 +546,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 41: // TreasureGroupHeader -> CATEGORY_MAP, STRING, ',', STRING
-#line 217 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 217 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "Name", ValueStack[ValueStack.Depth-3]),
 					MakeProperty(LocationStack[LocationStack.Depth-1], "TreasureGroup", ValueStack[ValueStack.Depth-1]),
@@ -555,7 +555,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 42: // TreasureTableHeader -> NEW, TREASURE_TABLE, STRING
-#line 224 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 224 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty("Name", ValueStack[ValueStack.Depth-1]),
 					MakeProperty("EntityType", "TreasureTable")
@@ -563,27 +563,27 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 66: // EntryType -> TYPE, STRING
-#line 254 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 254 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                         { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "EntityType", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 67: // EntryUsing -> USING, STRING
-#line 256 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 256 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                           { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "Using", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 68: // EntryData -> DATA, STRING, STRING
-#line 258 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 258 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 70: // EntryParam -> PARAM, STRING, STRING
-#line 262 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 262 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                  { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 71: // ItemProgressionName -> ADD, NAME, STRING, ',', STRING
-#line 265 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 265 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("Names", new Dictionary<String, object> {
 						{"Name", Unwrap(ValueStack[ValueStack.Depth-3])},
 						{"Description", Unwrap(ValueStack[ValueStack.Depth-1])}
@@ -591,7 +591,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 72: // ItemProgressionNameCool -> ADD, NAMECOOL, STRING, ',', STRING
-#line 271 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 271 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("NamesCool", new Dictionary<String, object> {
 						{"Name", Unwrap(ValueStack[ValueStack.Depth-3])},
 						{"Description", Unwrap(ValueStack[ValueStack.Depth-1])}
@@ -600,7 +600,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
         break;
       case 73: // ItemProgressionVisualLevel -> ADD, LEVELGROUP, INTEGER, ',', INTEGER, ',', 
                //                               STRING
-#line 277 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 277 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("LevelGroups", new Dictionary<String, object> {
 						{"MinLevel", Unwrap(ValueStack[ValueStack.Depth-5])},
 						{"MaxLevel", Unwrap(ValueStack[ValueStack.Depth-3])},
@@ -609,7 +609,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 74: // ItemProgressionVisualName -> ADD, ROOTGROUP, STRING, ',', STRING
-#line 284 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 284 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("NameGroups", new Dictionary<String, object> {
 						{"RootTemplate", Unwrap(ValueStack[ValueStack.Depth-3])},
 						{"ItemColor", Unwrap(ValueStack[ValueStack.Depth-1])},
@@ -617,7 +617,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 75: // ItemProgressionVisualRoot -> ADD, NAMEGROUP, STRING, ',', STRING, ',', STRING
-#line 290 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 290 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("RootGroups", new Dictionary<String, object> {
 						{"NameGroup", Unwrap(ValueStack[ValueStack.Depth-5])},
 						{"AffixType", Unwrap(ValueStack[ValueStack.Depth-3])},
@@ -626,7 +626,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 76: // DeltaModifierBoost -> NEW_BOOST, STRING, ',', INTEGER
-#line 297 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 297 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("Boosts", new Dictionary<String, object> {
 						{"Boost", Unwrap(ValueStack[ValueStack.Depth-3])},
 						{"Multiplier", Unwrap(ValueStack[ValueStack.Depth-1])},
@@ -634,47 +634,47 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 77: // EquipmentGroup -> ADD_EQUIPMENTGROUP, EquipmentEntries
-#line 302 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 302 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                      { CurrentSemanticValue = MakeElement("EquipmentGroups", ValueStack[ValueStack.Depth-1], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 78: // EquipmentEntries -> /* empty */
-#line 304 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 304 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                { CurrentSemanticValue = MakeCollection(); }
 #line default
         break;
       case 79: // EquipmentEntries -> EquipmentEntries, EquipmentEntry
-#line 305 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 305 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                   { CurrentSemanticValue = AddElement(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 80: // EquipmentEntry -> ADD_EQUIPMENT_ENTRY, STRING
-#line 308 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 308 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                             { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 81: // ItemComboPropertyEntry -> NEW_ITEMCOMBOPROPERTYENTRY, EntrySubProperties
-#line 310 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 310 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                                       { CurrentSemanticValue = MakeElement("Entries", ValueStack[ValueStack.Depth-1], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 82: // EntrySubProperties -> /* empty */
-#line 312 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 312 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                  { CurrentSemanticValue = MakeDeclaration(); }
 #line default
         break;
       case 83: // EntrySubProperties -> EntrySubProperties, EntryData
-#line 313 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 313 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                { CurrentSemanticValue = AddProperty(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 84: // SkillSetSkill -> ADD, SKILL, STRING
-#line 316 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 316 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                  { CurrentSemanticValue = MakeElement("NameGroups", ValueStack[ValueStack.Depth-1], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 85: // TreasureGroupWeaponCounter -> WEAPON_COUNTER, STRING, ',', STRING
-#line 319 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 319 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "WeaponTreasureGroup", ValueStack[ValueStack.Depth-3]),
 					MakeProperty(LocationStack[LocationStack.Depth-1], "WeaponDefaultCounter", ValueStack[ValueStack.Depth-1])
@@ -682,7 +682,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 86: // TreasureGroupSkillbookCounter -> SKILLBOOK_COUNTER, STRING, ',', STRING
-#line 325 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 325 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "SkillbookTreasureGroup", ValueStack[ValueStack.Depth-3]),
 					MakeProperty(LocationStack[LocationStack.Depth-1], "SkillbookDefaultCounter", ValueStack[ValueStack.Depth-1])
@@ -690,7 +690,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 87: // TreasureGroupArmorCounter -> ARMOR_COUNTER, STRING, ',', STRING
-#line 331 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 331 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-3], "ArmorTreasureGroup", ValueStack[ValueStack.Depth-3]),
 					MakeProperty(LocationStack[LocationStack.Depth-1], "ArmorDefaultCounter", ValueStack[ValueStack.Depth-1])
@@ -698,7 +698,7 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 88: // TreasureSubtable -> NEW_SUBTABLE, STRING, TreasureTableObjects
-#line 337 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 337 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("Subtables", 
 					AddProperty(
 						MakeDeclaration(CurrentLocationSpan, new [] { MakeProperty(LocationStack[LocationStack.Depth-2], "DropCount", ValueStack[ValueStack.Depth-2]) }),
@@ -708,59 +708,59 @@ public partial class StatParser: ShiftReduceParser<System.Object, LSLib.Parser.C
 #line default
         break;
       case 89: // TreasureTableMinLevel -> MIN_LEVEL, STRING
-#line 344 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 344 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                          { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "MinLevel", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 90: // TreasureTableMaxLevel -> MAX_LEVEL, STRING
-#line 346 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 346 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                          { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "MaxLevel", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 91: // TreasureTableCanMerge -> CAN_MERGE, STRING
-#line 348 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 348 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                          { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "CanMerge", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 92: // TreasureTableCanMerge -> CAN_MERGE, INTEGER
-#line 349 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 349 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                           { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "CanMerge", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 93: // TreasureTableIgnoreLevelDiff -> IGNORE_LEVEL_DIFF, INTEGER
-#line 351 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 351 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                          { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "IgnoreLevelDiff", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 94: // TreasureTableUseTreasureGroups -> USE_TREASURE_GROUPS, INTEGER
-#line 353 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 353 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                              { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "UseTreasureGroupCounters", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 95: // TreasureTableObjects -> /* empty */
-#line 355 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 355 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                    { CurrentSemanticValue = MakeDeclaration(); }
 #line default
         break;
       case 96: // TreasureTableObjects -> TreasureTableObjects, TreasureTableEntry
-#line 356 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 356 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                           { CurrentSemanticValue = AddProperty(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 100: // TreasureTableObjectStartLevel -> START_LEVEL, STRING
-#line 364 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 364 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                    { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "StartLevel", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 101: // TreasureTableObjectEndLevel -> END_LEVEL, STRING
-#line 366 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 366 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                                                { CurrentSemanticValue = MakeProperty(CurrentLocationSpan, "EndLevel", ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 102: // TreasureTableObject -> OBJECT_CATEGORY, STRING, ',', INTEGER, ',', INTEGER, ',', 
                 //                        INTEGER, ',', INTEGER, ',', INTEGER, ',', INTEGER, ',', 
                 //                        INTEGER, ',', INTEGER
-#line 369 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.yy"
+#line 369 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.yy"
                 { CurrentSemanticValue = MakeElement("Objects", MakeDeclaration(CurrentLocationSpan, new [] {
 					MakeProperty(LocationStack[LocationStack.Depth-17], "Drop", ValueStack[ValueStack.Depth-17]),
 					MakeProperty(LocationStack[LocationStack.Depth-15], "Frequency", ValueStack[ValueStack.Depth-15]),

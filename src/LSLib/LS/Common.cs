@@ -1,11 +1,5 @@
-﻿global using System;
-global using System.Collections.Generic;
-global using System.IO;
-global using System.Linq;
-global using System.Runtime.InteropServices;
+﻿global using System.Runtime.InteropServices;
 global using System.Text;
-global using System.Threading.Tasks;
-global using System.Threading;
 using System.Text.RegularExpressions;
 
 namespace LSLib.LS;
@@ -19,15 +13,15 @@ public static class Common
 	public const int PatchVersion = 3;
 
 	// Version of LSTools profile data in generated DAE files
-    public const int ColladaMetadataVersion = 3;
+	public const int ColladaMetadataVersion = 3;
 
 	// Version of LSTools profile data in generated GLTF files
-    public const int GLTFMetadataVersion = 3;
+	public const int GLTFMetadataVersion = 3;
 
-    /// <summary>
-    /// Returns the version number of the LSLib library
-    /// </summary>
-    public static string LibraryVersion()
+	/// <summary>
+	/// Returns the version number of the LSLib library
+	/// </summary>
+	public static string LibraryVersion()
 	{
 		return String.Format("{0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion);
 	}

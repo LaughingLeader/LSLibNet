@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.2.2
 //  Machine:  LL-GAME
-//  DateTime: 11/29/2025 5:03:56 PM
+//  DateTime: 12/11/2025 11:30:00 PM
 //  UserName: LaughingLeader
-//  GPLEX input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\File\Stat.lex - 12/6/2024 6:12:21 PM>
+//  GPLEX input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\File\Stat.lex - 12/11/2025 11:26:13 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: parser, minimize

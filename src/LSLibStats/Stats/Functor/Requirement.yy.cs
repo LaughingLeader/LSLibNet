@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:57 PM
+// DateTime: 12/11/2025 11:30:00 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy - 12/11/2025 11:26:13 PM>
 
 // options: lines
 
@@ -74,32 +74,32 @@ public partial class RequirementParser: ShiftReduceParser<System.Object, LexLoca
     switch (action)
     {
       case 3: // Requirements -> /* empty */
-#line 27 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 27 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                            { CurrentSemanticValue = MakeRequirements(); }
 #line default
         break;
       case 4: // Requirements -> UnaryRequirement
-#line 28 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 28 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                                 { CurrentSemanticValue = AddRequirement(MakeRequirements(), ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 6: // Requirements -> Requirements, ';', UnaryRequirement
-#line 30 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 30 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                                                  { CurrentSemanticValue = AddRequirement(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 8: // UnaryRequirement -> '!', Requirement
-#line 34 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 34 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                                    { CurrentSemanticValue = MakeNotRequirement(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 9: // Requirement -> NAME
-#line 37 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 37 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                    { CurrentSemanticValue = MakeRequirement(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 10: // Requirement -> NAME, INTEGER
-#line 38 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Requirement.yy"
+#line 38 "C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Requirement.yy"
                            { CurrentSemanticValue = MakeIntRequirement(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;

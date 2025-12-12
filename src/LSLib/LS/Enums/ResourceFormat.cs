@@ -2,8 +2,8 @@
 
 public enum ResourceFormat
 {
-    LSX,
-    LSB,
-    LSF,
-    LSJ
+	LSX,
+	LSB,
+	LSF,
+	LSJ
 };

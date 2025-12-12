@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:55 PM
+// DateTime: 12/11/2025 11:29:59 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy - 12/11/2025 11:27:08 PM>
 
 // options: lines
 
@@ -153,109 +153,109 @@ public partial class HeaderParser: ShiftReduceParser<LSLib.LS.Story.HeaderParser
     switch (action)
     {
       case 4: // Declarations -> /* empty */
-#line 37 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 37 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                            { CurrentSemanticValue = MakeDeclarationList(); }
 #line default
         break;
       case 5: // Declarations -> Declarations, Declaration
-#line 38 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 38 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                         { CurrentSemanticValue = MakeDeclarationList(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 9: // Option -> OPTION, IDENTIFIER
-#line 46 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 46 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                            { CurrentSemanticValue = MakeOption(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 10: // Alias -> ALIAS_TYPE, '{', IDENTIFIER, ',', INTEGER, ',', INTEGER, '}'
-#line 49 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 49 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
        { CurrentSemanticValue = MakeAlias(ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2]); }
 #line default
         break;
       case 11: // Function -> InOutFunctionType, IDENTIFIER, '(', InOutFunctionParams, ')', 
                //             FunctionMetadata
-#line 51 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 51 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                                                      { CurrentSemanticValue = MakeFunction(ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 12: // Function -> InFunctionType, IDENTIFIER, '(', InFunctionParams, ')', 
                //             FunctionMetadata
-#line 52 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 52 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                                                { CurrentSemanticValue = MakeFunction(ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 13: // FunctionMetadata -> '(', INTEGER, ',', INTEGER, ',', INTEGER, ',', INTEGER, ')'
-#line 56 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 56 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                  { CurrentSemanticValue = MakeFunctionMetadata(ValueStack[ValueStack.Depth-8], ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2]); }
 #line default
         break;
       case 14: // InOutFunctionType -> SYSQUERY
-#line 58 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 58 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                              { CurrentSemanticValue = MakeFunctionType(Compiler.FunctionType.SysQuery); }
 #line default
         break;
       case 15: // InOutFunctionType -> QUERY
-#line 59 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 59 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                           { CurrentSemanticValue = MakeFunctionType(Compiler.FunctionType.Query); }
 #line default
         break;
       case 16: // InFunctionType -> SYSCALL
-#line 62 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 62 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                          { CurrentSemanticValue = MakeFunctionType(Compiler.FunctionType.SysCall); }
 #line default
         break;
       case 17: // InFunctionType -> CALL
-#line 63 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 63 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                       { CurrentSemanticValue = MakeFunctionType(Compiler.FunctionType.Call); }
 #line default
         break;
       case 18: // InFunctionType -> EVENT
-#line 64 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 64 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                        { CurrentSemanticValue = MakeFunctionType(Compiler.FunctionType.Event); }
 #line default
         break;
       case 19: // InOutFunctionParams -> /* empty */
-#line 67 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 67 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                   { CurrentSemanticValue = MakeFunctionParamList(); }
 #line default
         break;
       case 20: // InOutFunctionParams -> InOutFunctionParam
-#line 68 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 68 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                          { CurrentSemanticValue = MakeFunctionParamList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 21: // InOutFunctionParams -> InOutFunctionParams, ',', InOutFunctionParam
-#line 69 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 69 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                                  { CurrentSemanticValue = MakeFunctionParamList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 22: // InFunctionParams -> /* empty */
-#line 72 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 72 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                { CurrentSemanticValue = MakeFunctionParamList(); }
 #line default
         break;
       case 23: // InFunctionParams -> InFunctionParam
-#line 73 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 73 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                    { CurrentSemanticValue = MakeFunctionParamList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 24: // InFunctionParams -> InFunctionParams, ',', InFunctionParam
-#line 74 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 74 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                         { CurrentSemanticValue = MakeFunctionParamList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 25: // InOutFunctionParam -> '[', IN, ']', '(', IDENTIFIER, ')', IDENTIFIER
-#line 77 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 77 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                               { CurrentSemanticValue = MakeParam(ParamDirection.In, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 26: // InOutFunctionParam -> '[', OUT, ']', '(', IDENTIFIER, ')', IDENTIFIER
-#line 78 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 78 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                                { CurrentSemanticValue = MakeParam(ParamDirection.Out, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 27: // InFunctionParam -> '(', IDENTIFIER, ')', IDENTIFIER
-#line 81 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
+#line 81 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\HeaderParser\StoryHeader.yy"
                                                 { CurrentSemanticValue = MakeParam(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;

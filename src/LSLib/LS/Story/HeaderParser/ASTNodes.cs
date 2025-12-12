@@ -16,12 +16,12 @@ public class ASTNode
 /// </summary>
 public class ASTDeclarations : ASTNode
 {
-    // Debug options
-    public List<String> Options = new List<String>();
-    // Declared type aliases
-    public List<ASTAlias> Aliases = new List<ASTAlias>();
-    // Declared functions
-    public List<ASTFunction> Functions = new List<ASTFunction>();
+	// Debug options
+	public List<String> Options = new List<String>();
+	// Declared type aliases
+	public List<ASTAlias> Aliases = new List<ASTAlias>();
+	// Declared functions
+	public List<ASTFunction> Functions = new List<ASTFunction>();
 }
 
 /// <summary>
@@ -30,8 +30,8 @@ public class ASTDeclarations : ASTNode
 /// </summary>
 public class ASTFunctionTypeNode : ASTNode
 {
-    // Type of function (SysQuery, SysCall, Event, etc.)
-    public Compiler.FunctionType Type;
+	// Type of function (SysQuery, SysCall, Event, etc.)
+	public Compiler.FunctionType Type;
 }
 
 /// <summary>
@@ -40,10 +40,10 @@ public class ASTFunctionTypeNode : ASTNode
 /// </summary>
 public class ASTFunctionMetadata : ASTNode
 {
-    public UInt32 Meta1;
-    public UInt32 Meta2;
-    public UInt32 Meta3;
-    public UInt32 Meta4;
+	public UInt32 Meta1;
+	public UInt32 Meta2;
+	public UInt32 Meta3;
+	public UInt32 Meta4;
 }
 
 /// <summary>
@@ -51,17 +51,17 @@ public class ASTFunctionMetadata : ASTNode
 /// </summary>
 public class ASTFunction : ASTNode
 {
-    // Type of function (SysQuery, SysCall, Event, etc.)
-    public Compiler.FunctionType Type;
-    // Name of the function
-    public String Name;
-    // Function parameters
-    public List<ASTFunctionParam> Params;
-    // Function metadata for Osiris internal use - mostly unknown.
-    public UInt32 Meta1;
-    public UInt32 Meta2;
-    public UInt32 Meta3;
-    public UInt32 Meta4;
+	// Type of function (SysQuery, SysCall, Event, etc.)
+	public Compiler.FunctionType Type;
+	// Name of the function
+	public String Name;
+	// Function parameters
+	public List<ASTFunctionParam> Params;
+	// Function metadata for Osiris internal use - mostly unknown.
+	public UInt32 Meta1;
+	public UInt32 Meta2;
+	public UInt32 Meta3;
+	public UInt32 Meta4;
 }
 
 /// <summary>
@@ -70,8 +70,8 @@ public class ASTFunction : ASTNode
 /// </summary>
 public class ASTFunctionParamList : ASTNode
 {
-    // Function parameters
-    public List<ASTFunctionParam> Params = new List<ASTFunctionParam>();
+	// Function parameters
+	public List<ASTFunctionParam> Params = new List<ASTFunctionParam>();
 }
 
 /// <summary>
@@ -79,13 +79,13 @@ public class ASTFunctionParamList : ASTNode
 /// </summary>
 public class ASTFunctionParam : ASTNode
 {
-    // Parameter name
-    public String Name;
-    // Parameter type
-    public String Type;
-    // Parameter direction (IN/OUT)
-    // This is only meaningful for Query and SysQuery, for all other types direction is always "IN".
-    public ParamDirection Direction;
+	// Parameter name
+	public String Name;
+	// Parameter type
+	public String Type;
+	// Parameter direction (IN/OUT)
+	// This is only meaningful for Query and SysQuery, for all other types direction is always "IN".
+	public ParamDirection Direction;
 }
 
 /// <summary>
@@ -93,12 +93,12 @@ public class ASTFunctionParam : ASTNode
 /// </summary>
 public class ASTAlias : ASTNode
 {
-    // Name of the new type
-    public String TypeName;
-    // ID of the new type (must be a new type ID)
-    public uint TypeId;
-    // ID of the type this type is mapped to (must be an existing type ID)
-    public uint AliasId;
+	// Name of the new type
+	public String TypeName;
+	// ID of the new type (must be a new type ID)
+	public uint TypeId;
+	// ID of the type this type is mapped to (must be an existing type ID)
+	public uint AliasId;
 }
 
 /// <summary>
@@ -107,8 +107,8 @@ public class ASTAlias : ASTNode
 /// </summary>
 public class ASTOption : ASTNode
 {
-    // Name of debug option
-    public String Name;
+	// Name of debug option
+	public String Name;
 }
 
 /// <summary>
@@ -117,5 +117,5 @@ public class ASTOption : ASTNode
 /// </summary>
 public class ASTLiteral : ASTNode
 {
-    public String Literal;
+	public String Literal;
 }

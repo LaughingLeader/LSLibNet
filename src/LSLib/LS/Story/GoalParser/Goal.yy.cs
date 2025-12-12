@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:55 PM
+// DateTime: 12/11/2025 11:29:59 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy - 12/11/2025 11:27:08 PM>
 
 // options: lines
 
@@ -278,330 +278,330 @@ public partial class GoalParser: ShiftReduceParser<System.Object, LSLib.Parser.C
     {
       case 3: // Goal -> Version, SubGoalCombiner, InitSection, KBSection, ExitSection, 
               //         TargetEdges
-#line 58 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 58 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
      { CurrentSemanticValue = MakeGoal(CurrentLocationSpan, ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 4: // Version -> VERSION, INTEGER
-#line 61 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 61 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 5: // SubGoalCombiner -> SUBGOALCOMBINER, SGC_AND
-#line 64 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 64 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 6: // InitSection -> INITSECTION, Facts
-#line 67 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 67 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 7: // KBSection -> KBSECTION, Rules
-#line 70 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 70 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 8: // ExitSection -> EXITSECTION, Facts, ENDEXITSECTION
-#line 73 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 73 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-2]; }
 #line default
         break;
       case 9: // TargetEdges -> /* empty */
-#line 75 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 75 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                           { CurrentSemanticValue = MakeParentTargetEdgeList(); }
 #line default
         break;
       case 10: // TargetEdges -> TargetEdges, TargetEdge
-#line 76 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 76 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                      { CurrentSemanticValue = MakeParentTargetEdgeList(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 11: // TargetEdge -> PARENT_TARGET_EDGE, STRING
-#line 80 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 80 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = MakeParentTargetEdge(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 12: // Facts -> /* empty */
-#line 82 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 82 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                     { CurrentSemanticValue = MakeFactList(); }
 #line default
         break;
       case 13: // Facts -> Facts, Fact
-#line 83 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 83 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                    { CurrentSemanticValue = MakeFactList(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 14: // Fact -> FactStatement
-#line 86 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 86 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                      { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 15: // Fact -> NOT, FactStatement
-#line 87 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 87 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                          { CurrentSemanticValue = MakeNotFact(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 16: // Fact -> GOAL_COMPLETED, ';'
-#line 88 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 88 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                           { CurrentSemanticValue = MakeGoalCompletedFact(CurrentLocationSpan); }
 #line default
         break;
       case 17: // FactStatement -> IDENTIFIER, '(', FactElementList, ')', ';'
-#line 92 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 92 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = MakeFactStatement(CurrentLocationSpan, ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3]); }
 #line default
         break;
       case 18: // FactElementList -> /* empty */
-#line 94 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 94 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                               { CurrentSemanticValue = MakeFactElementList(); }
 #line default
         break;
       case 19: // FactElementList -> FactElement
-#line 95 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 95 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                               { CurrentSemanticValue = MakeFactElementList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 20: // FactElementList -> FactElementList, ',', FactElement
-#line 96 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 96 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                   { CurrentSemanticValue = MakeFactElementList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 21: // FactElement -> TypedConstant
-#line 100 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 100 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 22: // Constant -> GUIDSTRING
-#line 102 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 102 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                       { CurrentSemanticValue = MakeConstGuidString(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 23: // Constant -> STRING
-#line 103 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 103 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                   { CurrentSemanticValue = MakeConstString(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 24: // Constant -> INTEGER
-#line 104 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 104 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                    { CurrentSemanticValue = MakeConstInteger(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 25: // Constant -> FLOAT
-#line 105 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 105 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                  { CurrentSemanticValue = MakeConstFloat(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 26: // Rules -> /* empty */
-#line 108 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 108 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                     { CurrentSemanticValue = MakeRuleList(); }
 #line default
         break;
       case 27: // Rules -> Rules, Rule
-#line 109 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 109 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                    { CurrentSemanticValue = MakeRuleList(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 28: // Rule -> RuleType, Conditions, THEN, ActionList
-#line 113 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 113 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
     { CurrentSemanticValue = MakeRule(CurrentLocationSpan, ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 29: // RuleType -> IF
-#line 115 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 115 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
               { CurrentSemanticValue = MakeRuleType(RuleType.Rule); }
 #line default
         break;
       case 30: // RuleType -> PROC
-#line 116 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 116 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                 { CurrentSemanticValue = MakeRuleType(RuleType.Proc); }
 #line default
         break;
       case 31: // RuleType -> QRY
-#line 117 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 117 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                { CurrentSemanticValue = MakeRuleType(RuleType.Query); }
 #line default
         break;
       case 32: // Conditions -> InitialCondition
-#line 120 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 120 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                               { CurrentSemanticValue = MakeConditionList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 33: // Conditions -> Conditions, AND, Condition
-#line 121 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 121 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                       { CurrentSemanticValue = MakeConditionList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 38: // FuncCondition -> IDENTIFIER, '(', ConditionParamList, ')'
-#line 131 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 131 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                       { CurrentSemanticValue = MakeFuncCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2], false); }
 #line default
         break;
       case 39: // FuncCondition -> TypedLocalVar, '.', IDENTIFIER, '(', ConditionParamList, ')'
-#line 132 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 132 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                                         { CurrentSemanticValue = MakeObjectFuncCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2], false); }
 #line default
         break;
       case 40: // NotFuncCondition -> NOT, IDENTIFIER, '(', ConditionParamList, ')'
-#line 135 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 135 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                              { CurrentSemanticValue = MakeFuncCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2], true); }
 #line default
         break;
       case 41: // NotFuncCondition -> NOT, TypedLocalVar, '.', IDENTIFIER, '(', 
                //                     ConditionParamList, ')'
-#line 136 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 136 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                                                { CurrentSemanticValue = MakeObjectFuncCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-2], true); }
 #line default
         break;
       case 42: // BinaryCondition -> ConditionParam, Operator, ConditionParam
-#line 139 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 139 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                          { CurrentSemanticValue = MakeBinaryCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 43: // BinaryCondition -> NOT, ConditionParam, Operator, ConditionParam
-#line 140 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 140 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                              { CurrentSemanticValue = MakeNegatedBinaryCondition(CurrentLocationSpan, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 44: // ConditionParamList -> /* empty */
-#line 143 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 143 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                  { CurrentSemanticValue = MakeConditionParamList(); }
 #line default
         break;
       case 45: // ConditionParamList -> ConditionParam
-#line 144 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 144 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                     { CurrentSemanticValue = MakeConditionParamList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 46: // ConditionParamList -> ConditionParamList, ',', ConditionParam
-#line 145 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 145 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                            { CurrentSemanticValue = MakeConditionParamList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 47: // ConditionParam -> TypedConstant
-#line 148 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 148 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 48: // ConditionParam -> TypedLocalVar
-#line 149 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 149 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 49: // Operator -> EQ_OP
-#line 152 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 152 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                  { CurrentSemanticValue = MakeOperator(RelOpType.Equal); }
 #line default
         break;
       case 50: // Operator -> NE_OP
-#line 153 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 153 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                  { CurrentSemanticValue = MakeOperator(RelOpType.NotEqual); }
 #line default
         break;
       case 51: // Operator -> LT_OP
-#line 154 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 154 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                  { CurrentSemanticValue = MakeOperator(RelOpType.Less); }
 #line default
         break;
       case 52: // Operator -> LTE_OP
-#line 155 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 155 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                   { CurrentSemanticValue = MakeOperator(RelOpType.LessOrEqual); }
 #line default
         break;
       case 53: // Operator -> GT_OP
-#line 156 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 156 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                  { CurrentSemanticValue = MakeOperator(RelOpType.Greater); }
 #line default
         break;
       case 54: // Operator -> GTE_OP
-#line 157 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 157 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                   { CurrentSemanticValue = MakeOperator(RelOpType.GreaterOrEqual); }
 #line default
         break;
       case 55: // ActionList -> /* empty */
-#line 160 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 160 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                          { CurrentSemanticValue = MakeActionList(); }
 #line default
         break;
       case 56: // ActionList -> ActionList, Action
-#line 161 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 161 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                { CurrentSemanticValue = MakeActionList(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 57: // Action -> ActionStatement
-#line 164 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 164 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                          { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 58: // Action -> GOAL_COMPLETED, ';'
-#line 165 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 165 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                             { CurrentSemanticValue = MakeGoalCompletedAction(CurrentLocationSpan); }
 #line default
         break;
       case 59: // ActionStatement -> IDENTIFIER, '(', ActionParamList, ')', ';'
-#line 168 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 168 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                          { CurrentSemanticValue = MakeActionStatement(CurrentLocationSpan, ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], false); }
 #line default
         break;
       case 60: // ActionStatement -> TypedLocalVar, '.', IDENTIFIER, '(', ActionParamList, ')', 
                //                    ';'
-#line 169 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 169 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                                            { CurrentSemanticValue = MakeActionStatement(CurrentLocationSpan, ValueStack[ValueStack.Depth-7], ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], false); }
 #line default
         break;
       case 61: // ActionStatement -> NOT, IDENTIFIER, '(', ActionParamList, ')', ';'
-#line 170 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 170 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                              { CurrentSemanticValue = MakeActionStatement(CurrentLocationSpan, ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], true); }
 #line default
         break;
       case 62: // ActionStatement -> NOT, TypedLocalVar, '.', IDENTIFIER, '(', ActionParamList, 
                //                    ')', ';'
-#line 171 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 171 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                                                { CurrentSemanticValue = MakeActionStatement(CurrentLocationSpan, ValueStack[ValueStack.Depth-7], ValueStack[ValueStack.Depth-5], ValueStack[ValueStack.Depth-3], true); }
 #line default
         break;
       case 63: // ActionParamList -> /* empty */
-#line 174 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 174 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                               { CurrentSemanticValue = MakeActionParamList(); }
 #line default
         break;
       case 64: // ActionParamList -> ActionParam
-#line 175 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 175 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                               { CurrentSemanticValue = MakeActionParamList(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 65: // ActionParamList -> ActionParamList, ',', ActionParam
-#line 176 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 176 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                                   { CurrentSemanticValue = MakeActionParamList(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 66: // ActionParam -> TypedConstant
-#line 179 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 179 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                             { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 67: // ActionParam -> TypedLocalVar
-#line 180 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 180 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                             { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 68: // TypedConstant -> Constant
-#line 183 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 183 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                          { CurrentSemanticValue = ValueStack[ValueStack.Depth-1]; }
 #line default
         break;
       case 69: // TypedConstant -> '(', IDENTIFIER, ')', Constant
-#line 184 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 184 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                             { CurrentSemanticValue = MakeTypedConstant(CurrentLocationSpan, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 70: // TypedLocalVar -> LOCAL_VAR
-#line 187 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 187 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                           { CurrentSemanticValue = MakeLocalVar(CurrentLocationSpan, ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 71: // TypedLocalVar -> '(', IDENTIFIER, ')', LOCAL_VAR
-#line 188 "C:\Projects\CSharp\BG3ModManager\External\lslib\LSLib\LS\Story\GoalParser\Goal.yy"
+#line 188 "C:\Projects\CSharp\LSLibNet\src\LSLib\LS\Story\GoalParser\Goal.yy"
                                              { CurrentSemanticValue = MakeLocalVar(CurrentLocationSpan, ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;

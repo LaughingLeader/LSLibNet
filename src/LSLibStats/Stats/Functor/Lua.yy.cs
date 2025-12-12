@@ -4,9 +4,9 @@
 
 // GPPG version 1.5.2
 // Machine:  LL-GAME
-// DateTime: 11/29/2025 5:03:57 PM
+// DateTime: 12/11/2025 11:30:00 PM
 // UserName: LaughingLeader
-// Input file <C:\Projects\CSharp\BG3ModManager\External\lslib\LSLibStats\Stats\Functor\Lua.yy - 12/6/2024 6:12:21 PM>
+// Input file <C:\Projects\CSharp\LSLibNet\src\LSLibStats\Stats\Functor\Lua.yy - 12/11/2025 11:26:13 PM>
 
 // options: lines
 
