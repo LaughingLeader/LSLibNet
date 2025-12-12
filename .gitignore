@@ -2,6 +2,23 @@
 
 External
 
+# Generated
+
+src/LSLibStats/Stats/Functor/RollConditions.yy.cs
+src/LSLibStats/Stats/Functor/RollConditions.lex.cs
+src/LSLibStats/Stats/Functor/Requirement.yy.cs
+src/LSLibStats/Stats/Functor/Requirement.lex.cs
+src/LSLibStats/Stats/Functor/Lua.yy.cs
+src/LSLibStats/Stats/Functor/Lua.lex.cs
+src/LSLibStats/Stats/Functor/Functor.yy.cs
+src/LSLibStats/Stats/Functor/Functor.lex.cs
+src/LSLibStats/Stats/File/Stat.yy.cs
+src/LSLibStats/Stats/File/Stat.lex.cs
+src/LSLib/LS/Story/HeaderParser/StoryHeader.yy.cs
+src/LSLib/LS/Story/HeaderParser/StoryHeader.lex.cs
+src/LSLib/LS/Story/GoalParser/Goal.yy.cs
+src/LSLib/LS/Story/GoalParser/Goal.lex.cs
+
 ## Visual Studio Code specific files and folder
 .vscode/*
 !.vscode/settings.json
@@ -339,4 +356,3 @@ ASALocalRun/
 .mfractor/
 *.zip
 *.psd
-PublishRelease.py
