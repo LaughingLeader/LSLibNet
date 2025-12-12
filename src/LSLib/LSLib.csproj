@@ -18,14 +18,6 @@
 		<PlatformTarget>x64</PlatformTarget>
 	</PropertyGroup>
 
-    <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <DefineConstants>TRACE;DEBUG;EXPORT_GPPG</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DefineConstants>EXPORT_GPPG</DefineConstants>
-    </PropertyGroup>-->
-	
 	<ItemGroup>
 		<PackageReference Include="DotFastLZ.Compression" />
 		<PackageReference Include="K4os.Compression.LZ4" />
@@ -35,14 +27,26 @@
 		<PackageReference Include="System.IO.Hashing" />
 		<PackageReference Include="ZstdSharp.Port" />
 	</ItemGroup>
-	
-	<PropertyGroup>
-		<PreBuildEvent>
-			"$(SolutionDir)\External\gppg\binaries\GpLex" /out:"$(MSBuildProjectDirectory)\LS\Story\GoalParser\Goal.lex.cs" "$(MSBuildProjectDirectory)\LS\Story\GoalParser\Goal.lex"
-			"$(SolutionDir)\External\gppg\binaries\Gppg" /out:"$(MSBuildProjectDirectory)\LS\Story\GoalParser\Goal.yy.cs" "$(MSBuildProjectDirectory)\LS\Story\GoalParser\Goal.yy"
 
-			"$(SolutionDir)\External\gppg\binaries\GpLex" /out:"$(MSBuildProjectDirectory)\LS\Story\HeaderParser\StoryHeader.lex.cs" "$(MSBuildProjectDirectory)\LS\Story\HeaderParser\StoryHeader.lex"
-			"$(SolutionDir)\External\gppg\binaries\Gppg" /out:"$(MSBuildProjectDirectory)\LS\Story\HeaderParser\StoryHeader.yy.cs" "$(MSBuildProjectDirectory)\LS\Story\HeaderParser\StoryHeader.yy"
-		</PreBuildEvent>
+	<PropertyGroup>
+		<SrcDirectory>$([System.IO.Directory]::GetParent($(MSBuildProjectDirectory)))</SrcDirectory>
+		<ProjectTopDirectory>$([System.IO.Directory]::GetParent($(SrcDirectory)))</ProjectTopDirectory>
+		<GPPGDir>$(ProjectTopDirectory)\External\gppg\binaries</GPPGDir>
+		<GpLex>$(GPPGDir)\GpLex</GpLex>
+		<Gppg>$(GPPGDir)\Gppg</Gppg>
+		<GoalParser>$(MSBuildProjectDirectory)\LS\Story\GoalParser</GoalParser>
+		<HeaderParser>$(MSBuildProjectDirectory)\LS\Story\HeaderParser</HeaderParser>
 	</PropertyGroup>
+
+	<Target Name="CleanStoryGppgFiles" AfterTargets="Clean">
+		<Delete Files="$(GoalParser)\Goal.lex.cs;$(GoalParser)\Goal.yy.cs;$(HeaderParser)\StoryHeader.lex.cs;$(HeaderParser)\StoryHeader.yy.cs" ContinueOnError="true" TreatErrorsAsWarnings="true" />
+	</Target>
+
+	<Target Name="PreBuildStoryGppgFiles" BeforeTargets="PreBuildEvent">
+		<Exec Condition="!Exists('$(GoalParser)\Goal.lex.cs')" Command="$(GpLex) /out:&quot;$(GoalParser)\Goal.lex.cs&quot; &quot;$(GoalParser)\Goal.lex&quot;" />
+		<Exec Condition="!Exists('$(GoalParser)\Goal.yy.cs')" Command="$(Gppg) /out:&quot;$(GoalParser)\Goal.yy.cs&quot; &quot;$(GoalParser)\Goal.yy&quot;" />
+
+		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.lex.cs')" Command="$(GpLex) /out:&quot;$(HeaderParser)\StoryHeader.lex.cs&quot; &quot;$(HeaderParser)\StoryHeader.lex&quot;" />
+		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.yy.cs')" Command="$(Gppg) /out:&quot;$(HeaderParser)\StoryHeader.yy.cs&quot; &quot;$(HeaderParser)\StoryHeader.yy&quot;" />
+	</Target>
 </Project>
