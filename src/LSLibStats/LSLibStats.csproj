@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>annotations</Nullable>
+		<Platforms>AnyCPU;x64</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
+		<DebugType>none</DebugType>
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Editor Debug'">
+		<DebugType>full</DebugType>
+		<Optimize>False</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<StatsFile>$(MSBuildProjectDirectory)\Stats\File</StatsFile>
+		<StatsFunctor>$(MSBuildProjectDirectory)\Stats\Functor</StatsFunctor>
+		<GpLex>..\external\gppg\binaries\GpLex</GpLex>
+		<Gppg>..\external\gppg\binaries\Gppg</Gppg>
+	</PropertyGroup>
+
+	<Target Name="CleanStatsGppgFiles" AfterTargets="Clean">
+		<Delete Files="$(StatsFile)\Stat.lex.cs;$(StatsFile)\Stat.yy.cs;$(StatsFunctor)\Functor.lex.cs;$(StatsFunctor)\Functor.yy.cs;$(StatsFunctor)\Lua.lex.cs;$(StatsFunctor)\Lua.yy.cs;$(StatsFunctor)\Requirement.lex.cs;$(StatsFunctor)\Requirement.yy.cs;$(StatsFunctor)\RollConditions.lex.cs;$(StatsFunctor)\RollConditions.yy.cs" ContinueOnError="true" TreatErrorsAsWarnings="true" />
+	</Target>
+
+	<Target Name="PreBuildStatsGppgFiles" BeforeTargets="PreBuildEvent">
+		<Exec Condition="!Exists('$(StatsFile)\Stat.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFile)\Stat.lex.cs&quot; &quot;$(StatsFile)\Stat.lex&quot;" />
+		<Exec Condition="!Exists('$(StatsFile)\Stat.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFile)\Stat.yy.cs&quot; &quot;$(StatsFile)\Stat.yy&quot;" />
+		
+		<Exec Condition="!Exists('$(StatsFunctor)\Functor.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Functor.lex.cs&quot; &quot;$(StatsFunctor)\Functor.lex&quot;" />
+		<Exec Condition="!Exists('$(StatsFunctor)\Functor.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Functor.yy.cs&quot; &quot;$(StatsFunctor)\Functor.yy&quot;" />
+		
+		<Exec Condition="!Exists('$(StatsFunctor)\Lua.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Lua.lex.cs&quot; &quot;$(StatsFunctor)\Lua.lex&quot;" />
+		<Exec Condition="!Exists('$(StatsFunctor)\Lua.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Lua.yy.cs&quot; &quot;$(StatsFunctor)\Lua.yy&quot;" />
+		
+		<Exec Condition="!Exists('$(StatsFunctor)\Requirement.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Requirement.lex.cs&quot; &quot;$(StatsFunctor)\Requirement.lex&quot;" />
+		<Exec Condition="!Exists('$(StatsFunctor)\Requirement.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Requirement.yy.cs&quot; &quot;$(StatsFunctor)\Requirement.yy&quot;" />
+		
+		<Exec Condition="!Exists('$(StatsFunctor)\RollConditions.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\RollConditions.lex.cs&quot; &quot;$(StatsFunctor)\RollConditions.lex&quot;" />
+		<Exec Condition="!Exists('$(StatsFunctor)\RollConditions.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\RollConditions.yy.cs&quot; &quot;$(StatsFunctor)\RollConditions.yy&quot;" />
+	</Target>
+
+	<ItemGroup>
+		<ProjectReference Include="..\LSLib\LSLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\LSLibDefinitions.xml" CopyToOutputDirectory="Never" />
+	</ItemGroup>
+</Project>
