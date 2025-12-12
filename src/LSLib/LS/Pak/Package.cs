@@ -4,26 +4,24 @@ namespace LSLib.LS.Pak;
 
 public class Package : IDisposable
 {
-	public readonly string PackagePath;
-	internal readonly MemoryMappedFile MetadataFile;
-	internal readonly MemoryMappedViewAccessor MetadataView;
+	internal MemoryMappedFile MetadataFile { get; }
+	internal MemoryMappedViewAccessor MetadataView { get; }
+	internal MemoryMappedFile[]? Parts { get; private set; }
+	internal MemoryMappedViewAccessor[]? Views { get; private set; }
 
-	internal MemoryMappedFile[] Parts;
-	internal MemoryMappedViewAccessor[] Views;
+	public string PackagePath { get; }
+	public PackageHeaderCommon? Metadata { get; private set; }
+	public List<PackagedFileInfo> Files { get; }
 
-	public PackageHeaderCommon Metadata;
-	public List<PackagedFileInfo> Files = [];
+	public PackageVersion? Version => (PackageVersion?)(Metadata?.Version);
 
-	public PackageVersion Version
+	internal Package(string path, FileStream? stream = null)
 	{
-		get { return (PackageVersion)Metadata.Version; }
-	}
-
-	public void OpenPart(int index, string path)
-	{
-		var file = File.OpenRead(path);
-		Parts[index] = MemoryMappedFile.CreateFromFile(file, null, file.Length, MemoryMappedFileAccess.Read, HandleInheritability.None, false);
-		Views[index] = Parts[index].CreateViewAccessor(0, file.Length, MemoryMappedFileAccess.Read);
+		Files = [];
+		PackagePath = path;
+		var file = stream ?? File.OpenRead(PackagePath);
+		MetadataFile = MemoryMappedFile.CreateFromFile(file, null, file.Length, MemoryMappedFileAccess.Read, HandleInheritability.None, false);
+		MetadataView = MetadataFile.CreateViewAccessor(0, file.Length, MemoryMappedFileAccess.Read);
 	}
 
 	public void OpenStreams(int numParts)
@@ -37,17 +35,17 @@ public class Package : IDisposable
 
 		for (var part = 1; part < numParts; part++)
 		{
-			string partPath = Package.MakePartFilename(PackagePath, part);
+			var partPath = Package.MakePartFilename(PackagePath, part);
 			OpenPart(part, partPath);
 		}
 	}
 
-	internal Package(string path, FileStream stream = null)
+	public void OpenPart(int index, string path)
 	{
-		PackagePath = path;
-		var file = stream ?? File.OpenRead(PackagePath);
-		MetadataFile = MemoryMappedFile.CreateFromFile(file, null, file.Length, MemoryMappedFileAccess.Read, HandleInheritability.None, false);
-		MetadataView = MetadataFile.CreateViewAccessor(0, file.Length, MemoryMappedFileAccess.Read);
+		if (Parts == null || Views == null) throw new IndexOutOfRangeException("Call OpenStreams first.", new NullReferenceException(nameof(Parts)));
+		var file = File.OpenRead(path);
+		Parts[index] = MemoryMappedFile.CreateFromFile(file, null, file.Length, MemoryMappedFileAccess.Read, HandleInheritability.None, false);
+		Views[index] = Parts[index].CreateViewAccessor(0, file.Length, MemoryMappedFileAccess.Read);
 	}
 
 	public void Dispose()
@@ -64,13 +62,15 @@ public class Package : IDisposable
 		{
 			file?.Dispose();
 		}
+
+		GC.SuppressFinalize(this);
 	}
 
 	public static string MakePartFilename(string path, int part)
 	{
-		string dirName = Path.GetDirectoryName(path);
-		string baseName = Path.GetFileNameWithoutExtension(path);
-		string extension = Path.GetExtension(path);
+		var dirName = Path.GetDirectoryName(path);
+		var baseName = Path.GetFileNameWithoutExtension(path);
+		var extension = Path.GetExtension(path);
 		return Path.Join(dirName, $"{baseName}_{part}{extension}");
 	}
 }
