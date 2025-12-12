@@ -236,8 +236,6 @@ public class DivinityMeshProperties
     public float[] LodDistance;
     [Serialization(ArraySize = 1)]
     public Int32[] IsImpostor;
-    [Serialization(Kind = SerializationKind.None)]
-    public bool NewlyAdded = false;
 
     public DivinityModelFlag MeshFlags
     {
@@ -283,15 +281,14 @@ public class DivinityMeshExtendedData
                 FormatDescs = null,
                 ExtendedData = null,
                 LodDistance = [3.40282347E+38f],
-                IsImpostor = [0],
-                NewlyAdded = true
+                IsImpostor = [0]
             },
             LSMVersion = CurrentLSMVersion
         };
     }
 
 
-    public void UpdateFromModelInfo(Mesh mesh, DivinityModelInfoFormat format, Skeleton skeleton)
+    public void UpdateFromModelInfo(Mesh mesh, DivinityModelInfoFormat format)
     {
         DivinityModelFlag meshFlags = 0;
         if (UserMeshProperties != null)
@@ -302,12 +299,6 @@ public class DivinityMeshExtendedData
         if (mesh.VertexFormat.HasBoneWeights)
         {
             meshFlags |= DivinityModelFlag.Skinned;
-        }
-        // Objects with a single binding are attached to the skeleton, but are not skinned
-        // These need the Rigid flag to ensure they are animatable
-        else if (mesh.BoneBindings != null && mesh.BoneBindings.Count == 1 && skeleton != null && !skeleton.IsDummy)
-        {
-            meshFlags |= DivinityModelFlag.Rigid;
         }
 
         if (mesh.VertexFormat.ColorMaps > 0)

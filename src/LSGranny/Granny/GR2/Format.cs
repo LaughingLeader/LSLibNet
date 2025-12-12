@@ -2,8 +2,6 @@
 using OpenTK.Mathematics;
 using System.Reflection;
 using System.IO.Hashing;
-using SharpGLTF.Transforms;
-using LSLib.Granny.Model;
 
 namespace LSLib.Granny.GR2;
 
@@ -121,15 +119,6 @@ public class Transform
         transform.SetTranslation(mat.ExtractTranslation());
         transform.SetRotation(mat.ExtractRotation());
         transform.SetScale(mat.ExtractScale());
-        return transform;
-    }
-
-    public static Transform FromGLTF(AffineTransform t)
-    {
-        var transform = new Transform();
-        transform.SetTranslation(t.Translation.ToOpenTK());
-        transform.SetRotation(t.Rotation.ToOpenTK());
-        transform.SetScale(t.Scale.ToOpenTK());
         return transform;
     }
 

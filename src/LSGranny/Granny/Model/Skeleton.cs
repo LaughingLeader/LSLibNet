@@ -31,8 +31,8 @@ public class Bone
     public int ExportIndex = -1;
 
     public bool IsRoot { get { return ParentIndex == -1; } }
-
-    public void UpdateWorldTransform(List<Bone> bones)
+    
+    public void UpdateWorldTransforms(List<Bone> bones)
     {
         var localTransform = Transform.ToMatrix4Composite();
         if (IsRoot)
@@ -44,11 +44,7 @@ public class Bone
             var parentBone = bones[ParentIndex];
             WorldTransform = localTransform * parentBone.WorldTransform;
         }
-    }
 
-    // Should be avoided unless necessary, as float matrix inversion introduces precision errors to the IWT
-    public void UpdateInverseWorldTransform()
-    {
         var iwt = WorldTransform.Inverted();
         InverseWorldTransform = [
             iwt[0, 0], iwt[0, 1], iwt[0, 2], iwt[0, 3],
@@ -56,12 +52,6 @@ public class Bone
             iwt[2, 0], iwt[2, 1], iwt[2, 2], iwt[2, 3],
             iwt[3, 0], iwt[3, 1], iwt[3, 2], iwt[3, 3]
         ];
-    }
-
-    public void UpdateWorldTransforms(List<Bone> bones)
-    {
-        UpdateWorldTransform(bones);
-        UpdateInverseWorldTransform();
     }
 
     private void ImportLSLibProfile(node node)
@@ -176,48 +166,6 @@ public class Bone
             ]
         };
     }
-
-    private static bool MirrorBoneName(ref string name, string from, string to)
-    {
-        int pos = 0;
-        while (true)
-        {
-            pos = name.IndexOf(from, pos);
-            if (pos == -1)
-            {
-                return false;
-            }
-
-            if (pos + 2 == name.Length || name[pos+2] == '_')
-            {
-                name = name[..pos] + to + name.Substring(pos+2);
-                return true;
-            }
-
-            pos += 2;
-        }
-    }
-
-    public static string MirrorBoneName(string name)
-    {
-        string mirrored = name;
-        if (MirrorBoneName(ref mirrored, "_l", "_r")
-            || MirrorBoneName(ref mirrored, "_L", "_R")
-            || MirrorBoneName(ref mirrored, "_r", "_l")
-            || MirrorBoneName(ref mirrored, "_R", "_L"))
-        {
-            return mirrored;
-        }
-        else
-        {
-            return name;
-        }
-    }
-
-    public void Mirror()
-    {
-        Name = MirrorBoneName(Name);
-    }
 }
 
 public class Skeleton
@@ -236,18 +184,6 @@ public class Skeleton
 
     [Serialization(Kind = SerializationKind.None)]
     public bool IsDummy = false;
-
-    public static Skeleton CreateEmpty(string name)
-    {
-        return new Skeleton
-        {
-            Bones = [],
-            LODType = 1,
-            Name = name,
-            BonesBySID = [],
-            BonesByID = []
-        };
-    }
 
     public static Skeleton FromCollada(node root)
     {
@@ -282,12 +218,14 @@ public class Skeleton
         UpdateWorldTransforms();
     }
 
-    public void Mirror()
+    public void Flip()
     {
-        foreach (var bone in Bones)
+        foreach (var bone in Bones) if (bone.IsRoot)
         {
-            bone.Mirror();
+           bone.Transform.SetScale(new Vector3(-1, 1, 1));
         }
+
+        UpdateWorldTransforms();
     }
 
     public void UpdateWorldTransforms()
@@ -320,58 +258,13 @@ public class Skeleton
         }
     }
 
-    private bool CheckIsDummy(Root root)
-    {
-        // If we have any skinned meshes, the skeleton cannot be dummy
-        var hasSkinnedMeshes = root.Models != null 
-            && root.Models.Any((model) => model.Skeleton == this) // We have a binding for this skeleton
-            && root.Meshes != null
-            && root.Meshes.Any((mesh) => mesh.IsSkinned()); // ... and the mesh has bone weights
-        if (hasSkinnedMeshes) return false;
-
-        // If we have animations (that have skeleton bindings), the skeleton cannot be dummy
-        if (root.Animations != null && root.Animations.Count > 0) return false;
-
-        // If we don't have any meshes (i.e. only exporting the skeleton resource), always include
-        // the skeleton even if it's a dummy skel
-        if (root.Meshes == null || root.Meshes.Count == 0) return false;
-
-        // Check if the skeleton conforms to one of the dummy patterns:
-        //  1) A single dummy root bone
-        if (Bones.Count == 1) return true;
-
-        //  2) A bone for each mesh parented to a dummy root bone
-        if (Bones.Count == 1 + root.Meshes.Count)
-        {
-            foreach (var bone in Bones)
-            {
-                if (!bone.IsRoot && bone.ParentIndex != 0) return false;
-            }
-
-            HashSet<string> marked = [];
-            foreach (var mesh in root.Meshes)
-            {
-                if (mesh.BoneBindings == null
-                    || mesh.BoneBindings.Count != 1)
-                {
-                    return false;
-                }
-
-                if (marked.Contains(mesh.BoneBindings[0].BoneName)) return false;
-                marked.Add(mesh.BoneBindings[0].BoneName);
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     public void PostLoad(Root root)
     {
-        if (CheckIsDummy(root))
+        var hasSkinnedMeshes = root.Models.Any((model) => model.Skeleton == this);
+        if (!hasSkinnedMeshes || Bones.Count == 1)
         {
             IsDummy = true;
+            Utils.Info(String.Format("Skeleton '{0}' marked as dummy", this.Name));
         }
 
         for (var i = 0; i < Bones.Count; i++)
