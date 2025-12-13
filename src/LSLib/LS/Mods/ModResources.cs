@@ -6,25 +6,25 @@ namespace LSLib.LS;
 
 public class ModInfo(string name)
 {
-	public string Name = name;
-	public string PackagePath = "";
+	public string Name { get; } = name;
+	public string PackagePath { get; set; } = "";
 
-	public string ModsPath;
-	public string PublicPath;
+	public string? ModsPath { get; set; }
+	public string? PublicPath { get; set; }
 
-	public string Meta;
-	public List<string> Scripts = [];
-	public List<string> Stats = [];
-	public List<string> Globals = [];
-	public List<string> LevelObjects = [];
-	public string OrphanQueryIgnoreList;
-	public string StoryHeaderFile;
-	public string TypeCoercionWhitelistFile;
-	public string ModifiersFile;
-	public string ValueListsFile;
-	public string ActionResourcesFile;
-	public string ActionResourceGroupsFile;
-	public List<string> TagFiles = [];
+	public string? Meta { get; set; }
+	public List<string> Scripts { get; } = [];
+	public List<string> Stats { get; } = [];
+	public List<string> Globals { get; } = [];
+	public List<string> LevelObjects { get; } = [];
+	public string? OrphanQueryIgnoreList { get; set; }
+	public string? StoryHeaderFile { get; set; }
+	public string? TypeCoercionWhitelistFile { get; set; }
+	public string? ModifiersFile { get; set; }
+	public string? ValueListsFile { get; set; }
+	public string? ActionResourcesFile { get; set; }
+	public string? ActionResourceGroupsFile { get; set; }
+	public List<string> TagFiles { get; } = [];
 }
 
 public class ModResources : IDisposable
@@ -41,6 +41,10 @@ public class ModResources : IDisposable
 
 public partial class ModPathVisitor
 {
+
+	[GeneratedRegex("^(.*)_[0-9]+\\.pak$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+	private static partial Regex ArchivePartRegex();
+
 	// Pattern for excluding subsequent parts of a multi-part archive
 	public static readonly Regex archivePartRe = ArchivePartRegex();
 
@@ -255,16 +259,12 @@ public partial class ModPathVisitor
 	{
 		DiscoverMods();
 	}
-
-
-	[GeneratedRegex("^(.*)_[0-9]+\\.pak$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
-	private static partial Regex ArchivePartRegex();
 }
 
 public class GameDataContext
 {
-	public VFS FS;
-	public ModResources Resources;
+	public VFS FS { get; }
+	public ModResources Resources { get; }
 
 	public GameDataContext(string path, TargetGame game = TargetGame.BG3, bool excludeAssets = true, bool loadUnpackedFiles = true)
 	{

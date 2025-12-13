@@ -4,9 +4,9 @@ namespace LSLib.LS;
 
 public class VFSDirectory
 {
-	public string Path;
-	public Dictionary<string, VFSDirectory> Dirs;
-	public Dictionary<string, PackagedFileInfo> Files;
+	public string? Path { get; set; }
+	public Dictionary<string, VFSDirectory>? Dirs { get; set; }
+	public Dictionary<string, PackagedFileInfo>? Files { get; set; }
 
 	public VFSDirectory GetOrAddDirectory(string absolutePath, string name)
 	{
@@ -22,7 +22,7 @@ public class VFSDirectory
 		return dir;
 	}
 
-	public bool TryGetDirectory(string name, out VFSDirectory dir)
+	public bool TryGetDirectory(string name, out VFSDirectory? dir)
 	{
 		if (Dirs?.TryGetValue(name, out dir) == true)
 		{
@@ -37,13 +37,13 @@ public class VFSDirectory
 	{
 		Files ??= [];
 
-		if (!Files.TryGetValue(name, out var curFile) || curFile.Package.Metadata.Priority < file.Package.Metadata.Priority)
+		if (!Files.TryGetValue(name, out var curFile) || curFile.Package.Metadata?.Priority < file.Package.Metadata?.Priority)
 		{
 			Files[name] = file;
 		}
 	}
 
-	public bool TryGetFile(string name, out PackagedFileInfo file)
+	public bool TryGetFile(string name, out PackagedFileInfo? file)
 	{
 		if (Files?.TryGetValue(name, out file) == true)
 		{
@@ -66,9 +66,9 @@ public class VFSDirectory
 
 public class VFS : IDisposable
 {
-	private readonly List<Package> Packages;
-	private readonly VFSDirectory Root;
-	private string RootDir;
+	private readonly List<Package> _packages;
+	private readonly VFSDirectory _root;
+	private string? _rootDir;
 
 	private bool _isDisposed;
 
@@ -116,25 +116,25 @@ public class VFS : IDisposable
 
 	public VFS()
 	{
-		Packages = [];
-		Root = new();
+		_packages = [];
+		_root = new();
 	}
 
 	public VFS(VFS other, bool ignorePackages = false)
 	{
-		Packages = !ignorePackages ? new(other.Packages) : [];
-		RootDir = other.RootDir;
-		Root = new VFSDirectory(other.Root);
+		_packages = !ignorePackages ? new(other._packages) : [];
+		_rootDir = other._rootDir;
+		_root = new VFSDirectory(other._root);
 	}
 
 	public void AttachRoot(string path)
 	{
-		RootDir = path;
+		_rootDir = path;
 	}
 
 	public void DetachRoot()
 	{
-		RootDir = null;
+		_rootDir = null;
 	}
 
 	private static bool CanProcessPak(string path, HashSet<string> packageBlacklist)
@@ -149,7 +149,7 @@ public class VFS : IDisposable
 		return false;
 	}
 
-	public void AttachDirectory(string directoryPath, EnumerationOptions opts = null, HashSet<string> packageBlacklist = null)
+	public void AttachDirectory(string directoryPath, EnumerationOptions? opts = null, HashSet<string>? packageBlacklist = null)
 	{
 		if (Directory.Exists(directoryPath))
 		{
@@ -168,8 +168,8 @@ public class VFS : IDisposable
 		}
 	}
 
-	public void AttachGameDirectory(string gameDataPath, bool excludeAssets = true, EnumerationOptions opts = null,
-		HashSet<string> packageBlacklist = null, bool loadUnpackedFiles = true)
+	public void AttachGameDirectory(string gameDataPath, bool excludeAssets = true, EnumerationOptions? opts = null,
+		HashSet<string>? packageBlacklist = null, bool loadUnpackedFiles = true)
 	{
 		if (loadUnpackedFiles) AttachRoot(gameDataPath);
 		// Ignore common Data folder paks, if a list isn't specified
@@ -183,12 +183,12 @@ public class VFS : IDisposable
 	{
 		var reader = new PackageReader();
 		var package = reader.Read(path);
-		if (package != null) Packages.Add(package);
+		if (package != null) _packages.Add(package);
 	}
 
 	public void FinishBuild()
 	{
-		foreach (var package in Packages)
+		foreach (var package in _packages)
 		{
 			if (package != null && package.Files != null)
 			{
@@ -204,7 +204,7 @@ public class VFS : IDisposable
 	{
 		var path = file.Name;
 		var namePos = 0;
-		var node = Root;
+		var node = _root;
 		do
 		{
 			var endPos = path.IndexOf('/', namePos);
@@ -221,16 +221,16 @@ public class VFS : IDisposable
 		} while (true);
 	}
 
-	public VFSDirectory FindVFSDirectory(string path)
+	public VFSDirectory? FindVFSDirectory(string path)
 	{
 		var namePos = 0;
-		var node = Root;
+		var node = _root;
 		do
 		{
 			var endPos = path.IndexOf('/', namePos);
 			if (endPos >= 0)
 			{
-				if (!node.TryGetDirectory(path.Substring(namePos, endPos - namePos), out node))
+				if (node?.TryGetDirectory(path.Substring(namePos, endPos - namePos), out node) == false)
 				{
 					return null;
 				}
@@ -239,7 +239,7 @@ public class VFS : IDisposable
 			}
 			else
 			{
-				if (node.TryGetDirectory(path.Substring(namePos), out node))
+				if (node?.TryGetDirectory(path.Substring(namePos), out node) == true)
 				{
 					return node;
 				}
@@ -254,19 +254,19 @@ public class VFS : IDisposable
 	public bool DirectoryExists(string path)
 	{
 		if (FindVFSDirectory(Canonicalize(path)) != null) return true;
-		return RootDir != null && Directory.Exists(Path.Combine(RootDir, path));
+		return _rootDir != null && Directory.Exists(Path.Combine(_rootDir, path));
 	}
 
-	public PackagedFileInfo FindVFSFile(string path)
+	public PackagedFileInfo? FindVFSFile(string path)
 	{
 		var namePos = 0;
-		var node = Root;
+		var node = _root;
 		do
 		{
 			var endPos = path.IndexOf('/', namePos);
 			if (endPos >= 0)
 			{
-				if (!node.TryGetDirectory(path.Substring(namePos, endPos - namePos), out node))
+				if (node?.TryGetDirectory(path.Substring(namePos, endPos - namePos), out node) == false)
 				{
 					return null;
 				}
@@ -275,7 +275,7 @@ public class VFS : IDisposable
 			}
 			else
 			{
-				if (node.TryGetFile(path.Substring(namePos), out var file))
+				if (node?.TryGetFile(path.Substring(namePos), out var file) == true)
 				{
 					return file;
 				}
@@ -295,7 +295,7 @@ public class VFS : IDisposable
 	public bool FileExists(string path)
 	{
 		if (FindVFSFile(Canonicalize(path)) != null) return true;
-		return RootDir != null && File.Exists(Path.Combine(RootDir, path));
+		return _rootDir != null && File.Exists(Path.Combine(_rootDir, path));
 	}
 
 	public string GetPackagePath(string path)
@@ -305,7 +305,7 @@ public class VFS : IDisposable
 		{
 			return file.Package.PackagePath;
 		}
-		return String.Empty;
+		return string.Empty;
 	}
 
 	public List<string> EnumerateFiles(string path, bool recursive = false)
@@ -328,9 +328,9 @@ public class VFS : IDisposable
 			EnumerateFiles(results, dir, recursive, filter);
 		}
 
-		if (RootDir != null)
+		if (_rootDir != null)
 		{
-			var fsDir = Path.Join(RootDir, path);
+			var fsDir = Path.Join(_rootDir, path);
 			if (Directory.Exists(fsDir))
 			{
 				var files = Directory.EnumerateFiles(fsDir, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
@@ -338,7 +338,7 @@ public class VFS : IDisposable
 				{
 					if (filter(file))
 					{
-						results.Add(Path.GetRelativePath(RootDir, file));
+						results.Add(Path.GetRelativePath(_rootDir, file));
 					}
 				}
 			}
@@ -359,24 +359,27 @@ public class VFS : IDisposable
 		{
 			foreach (var subdir in dir.Dirs)
 			{
-				results.Add(subdir.Value.Path);
+				if (subdir.Value.Path != null)
+				{
+					results.Add(subdir.Value.Path);
+				}
 			}
 		}
 
-		if (RootDir != null)
+		if (_rootDir != null)
 		{
-			var fsDir = Path.Join(RootDir, path);
+			var fsDir = Path.Join(_rootDir, path);
 			if (Directory.Exists(fsDir))
 			{
 				foreach (var subdir in Directory.EnumerateDirectories(fsDir))
 				{
-					results.Add(Path.GetRelativePath(RootDir, subdir));
+					results.Add(Path.GetRelativePath(_rootDir, subdir));
 				}
 			}
 		}
 	}
 
-	private void EnumerateFiles(List<string> results, VFSDirectory dir, bool recursive, Func<string, bool> filter)
+	private static void EnumerateFiles(List<string> results, VFSDirectory dir, bool recursive, Func<string, bool> filter)
 	{
 		if (dir.Files != null)
 		{
@@ -398,7 +401,7 @@ public class VFS : IDisposable
 		}
 	}
 
-	public bool TryOpenFromVFS(string path, out Stream stream)
+	public bool TryOpenFromVFS(string path, out Stream? stream)
 	{
 		var file = FindVFSFile(Canonicalize(path));
 		if (file != null && !file.IsDeletion())
@@ -413,13 +416,13 @@ public class VFS : IDisposable
 		}
 	}
 
-	public bool TryOpen(string path, out Stream stream)
+	public bool TryOpen(string path, out Stream? stream)
 	{
 		if (TryOpenFromVFS(path, out stream)) return true;
 
-		if (RootDir != null)
+		if (_rootDir != null)
 		{
-			var realPath = Path.Join(RootDir, path);
+			var realPath = Path.Join(_rootDir, path);
 			if (File.Exists(realPath))
 			{
 				stream = File.OpenRead(realPath);
@@ -431,7 +434,7 @@ public class VFS : IDisposable
 		return false;
 	}
 
-	public Stream Open(string path)
+	public Stream? Open(string path)
 	{
 		if (!TryOpen(path, out var stream))
 		{
@@ -447,7 +450,7 @@ public class VFS : IDisposable
 		{
 			if (disposing)
 			{
-				Packages?.ForEach(p => p.Dispose());
+				_packages?.ForEach(p => p.Dispose());
 			}
 
 			_isDisposed = true;
