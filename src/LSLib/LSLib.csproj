@@ -44,10 +44,10 @@
 	</Target>
 
 	<Target Name="PreBuildStoryGppgFiles" BeforeTargets="PreBuildEvent">
-		<Exec Condition="!Exists('$(GoalParser)\Goal.lex.cs')" Command="$(GpLex) /out:&quot;$(GoalParser)\Goal.lex.cs&quot; &quot;$(GoalParser)\Goal.lex&quot;" />
-		<Exec Condition="!Exists('$(GoalParser)\Goal.yy.cs')" Command="$(Gppg) /out:&quot;$(GoalParser)\Goal.yy.cs&quot; &quot;$(GoalParser)\Goal.yy&quot;" />
+		<Exec Condition="!Exists('$(GoalParser)\Goal.lex.cs')" Command="$(GpLex) /out:&quot;$(GoalParser)\Goal.lex.cs&quot; &quot;$(GoalParser)\Goal.lex&quot;" ContinueOnError="true" TreatErrorsAsWarnings="true" />
+		<Exec Condition="!Exists('$(GoalParser)\Goal.yy.cs')" Command="$(Gppg) /out:&quot;$(GoalParser)\Goal.yy.cs&quot; &quot;$(GoalParser)\Goal.yy&quot;" ContinueOnError="true" TreatErrorsAsWarnings="true" />
 
-		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.lex.cs')" Command="$(GpLex) /out:&quot;$(HeaderParser)\StoryHeader.lex.cs&quot; &quot;$(HeaderParser)\StoryHeader.lex&quot;" />
-		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.yy.cs')" Command="$(Gppg) /out:&quot;$(HeaderParser)\StoryHeader.yy.cs&quot; &quot;$(HeaderParser)\StoryHeader.yy&quot;" />
+		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.lex.cs')" Command="$(GpLex) /out:&quot;$(HeaderParser)\StoryHeader.lex.cs&quot; &quot;$(HeaderParser)\StoryHeader.lex&quot;" ContinueOnError="true" TreatErrorsAsWarnings="true" />
+		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.yy.cs')" Command="$(Gppg) /out:&quot;$(HeaderParser)\StoryHeader.yy.cs&quot; &quot;$(HeaderParser)\StoryHeader.yy&quot;" ContinueOnError="true" TreatErrorsAsWarnings="true" />
 	</Target>
 </Project>
