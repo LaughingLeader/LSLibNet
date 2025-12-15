@@ -105,7 +105,7 @@
 		<CallTarget Targets="YaccLexToolsGplexSingleTarget"/>
 		<Message Text="Diagnostic Message: $(BuffFile) not found" Importance="high" Condition="!Exists('$(BuffFile)')"/>
 		<Message Text="Patching $(BuffFile) visibility mismatch. Remove once https://github.com/ernstc/YaccLexTools/issues/8 has been resolved." Importance="high" Condition="Exists('$(BuffFile)')"/>
-		<Exec Command="sed -i -e 's/internal abstract class ScanBuff/public abstract class ScanBuff/g' /tmp/file.txt" Condition="Exists('$(BuffFile)')"/>
-		<Exec Command="sed -i -e 's/internal class BufferException/public class BufferException/g' /tmp/file.txt" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="sed -i -e 's/internal abstract class ScanBuff/public abstract class ScanBuff/g' $(BuffFile)" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="sed -i -e 's/internal class BufferException/public class BufferException/g' $(BuffFile)" Condition="Exists('$(BuffFile)')"/>
 	</Target>
 </Project>
