@@ -3,43 +3,129 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
-		
+
 		<PlatformTarget>x64</PlatformTarget>
 		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\LSLib\LSLib.csproj" />
-	</ItemGroup>
-
 	<PropertyGroup>
-		<SrcDirectory>$([System.IO.Directory]::GetParent($(MSBuildProjectDirectory)))</SrcDirectory>
-		<ProjectTopDirectory>$([System.IO.Directory]::GetParent($(SrcDirectory)))</ProjectTopDirectory>
-		<GPPGDir>$(ProjectTopDirectory)\External\gppg\binaries</GPPGDir>
-		<GpLex>$(GPPGDir)\GpLex</GpLex>
-		<Gppg>$(GPPGDir)\Gppg</Gppg>
-		<StatsFile>$(MSBuildProjectDirectory)\Stats\File</StatsFile>
-		<StatsFunctor>$(MSBuildProjectDirectory)\Stats\Functor</StatsFunctor>
+		<DefineConstants>$(DefineConstants);EXPORT_GPPG</DefineConstants>
 	</PropertyGroup>
 
-	<Target Name="CleanStoryGppgFiles" AfterTargets="Clean">
-		<Delete Files="$(StatsFile)\Stat.lex.cs;$(StatsFile)\Stat.yy.cs;$(StatsFunctor)\Functor.lex.cs;$(StatsFunctor)\Functor.yy.cs;$(StatsFunctor)\Lua.lex.cs;$(StatsFunctor)\Lua.yy.cs;$(StatsFunctor)\Requirement.lex.cs;$(StatsFunctor)\Requirement.yy.cs;$(StatsFunctor)\RollConditions.lex.cs;$(StatsFunctor)\RollConditions.yy.cs" ContinueOnError="true" TreatErrorsAsWarnings="true" />
-	</Target>
+	<ItemGroup>
+		<ProjectReference Include="..\LSLib\LSLib.csproj" />
+		<PackageReference Include="YaccLexTools" />
+	</ItemGroup>
 
-	<Target Name="PreBuildStoryGppgFiles" BeforeTargets="PreBuildEvent">
-		<Exec Condition="!Exists('$(StatsFile)\Stat.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFile)\Stat.lex.cs&quot; &quot;$(StatsFile)\Stat.lex&quot;" />
-		<Exec Condition="!Exists('$(StatsFile)\Stat.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFile)\Stat.yy.cs&quot; &quot;$(StatsFile)\Stat.yy&quot;" />
+	<ItemGroup Label="Stat">
+		<YaccFile Include="Stats\File\Stat.yy">
+			<OutputFile>Stats\File\Stat.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="Stats\File\Stat.lex">
+			<OutputFile>Stats\File\Stat.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
+	</ItemGroup>
 
-		<Exec Condition="!Exists('$(StatsFunctor)\Functor.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Functor.lex.cs&quot; &quot;$(StatsFunctor)\Functor.lex&quot;" />
-		<Exec Condition="!Exists('$(StatsFunctor)\Functor.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Functor.yy.cs&quot; &quot;$(StatsFunctor)\Functor.yy&quot;" />
+	<ItemGroup Label="Functors">
+		<YaccFile Include="Stats\Functor\Functor.yy">
+			<OutputFile>Stats\Functor\Functor.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="Stats\Functor\Functor.lex">
+			<OutputFile>Stats\Functor\Functor.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
 
-		<Exec Condition="!Exists('$(StatsFunctor)\Lua.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Lua.lex.cs&quot; &quot;$(StatsFunctor)\Lua.lex&quot;" />
-		<Exec Condition="!Exists('$(StatsFunctor)\Lua.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Lua.yy.cs&quot; &quot;$(StatsFunctor)\Lua.yy&quot;" />
+		<YaccFile Include="Stats\Functor\Lua.yy">
+			<OutputFile>Stats\Functor\Lua.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="Stats\Functor\Lua.lex">
+			<OutputFile>Stats\Functor\Lua.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
 
-		<Exec Condition="!Exists('$(StatsFunctor)\Requirement.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\Requirement.lex.cs&quot; &quot;$(StatsFunctor)\Requirement.lex&quot;" />
-		<Exec Condition="!Exists('$(StatsFunctor)\Requirement.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\Requirement.yy.cs&quot; &quot;$(StatsFunctor)\Requirement.yy&quot;" />
+		<YaccFile Include="Stats\Functor\Requirement.yy">
+			<OutputFile>Stats\Functor\Requirement.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="Stats\Functor\Requirement.lex">
+			<OutputFile>Stats\Functor\Requirement.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
 
-		<Exec Condition="!Exists('$(StatsFunctor)\RollConditions.lex.cs')" Command="$(GpLex) /out:&quot;$(StatsFunctor)\RollConditions.lex.cs&quot; &quot;$(StatsFunctor)\RollConditions.lex&quot;" />
-		<Exec Condition="!Exists('$(StatsFunctor)\RollConditions.yy.cs')" Command="$(Gppg) /out:&quot;$(StatsFunctor)\RollConditions.yy.cs&quot; &quot;$(StatsFunctor)\RollConditions.yy&quot;" />
-	</Target>
+		<YaccFile Include="Stats\Functor\RollConditions.yy">
+			<OutputFile>Stats\Functor\RollConditions.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="Stats\Functor\RollConditions.lex">
+			<OutputFile>Stats\Functor\RollConditions.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Stats\File\Stat.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\File\Stat.yy</DependentUpon>
+		</Compile>
+		<Compile Update="Stats\File\Stat.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\File\Stat.lex</DependentUpon>
+		</Compile>
+
+		<Compile Update="Stats\Functor\Functor.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Functor.yy</DependentUpon>
+		</Compile>
+		<Compile Update="Stats\Functor\Functor.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Functor.lex</DependentUpon>
+		</Compile>
+
+		<Compile Update="Stats\Functor\Lua.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Lua.yy</DependentUpon>
+		</Compile>
+		<Compile Update="Stats\Functor\Lua.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Lua.lex</DependentUpon>
+		</Compile>
+
+		<Compile Update="Stats\Functor\Requirement.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Requirement.yy</DependentUpon>
+		</Compile>
+		<Compile Update="Stats\Functor\Requirement.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\Requirement.lex</DependentUpon>
+		</Compile>
+
+		<Compile Update="Stats\Functor\RollConditions.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\RollConditions.yy</DependentUpon>
+		</Compile>
+		<Compile Update="Stats\Functor\RollConditions.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Stats\Functor\RollConditions.lex</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--Prevent conflicts with auto-generated LSLib files-->
+		<Compile Remove="GplexBuffers.cs" />
+		<Compile Remove="ShiftReduceParserCode.cs" />
+	</ItemGroup>
 </Project>

@@ -14,9 +14,13 @@
 		<Copyright>Copyright © Norbyte 2012-2023</Copyright>
 		<AssemblyVersion>1.18.5.0</AssemblyVersion>
 		<FileVersion>1.18.5.0</FileVersion>
-		
+
 		<PlatformTarget>x64</PlatformTarget>
 		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);EXPORT_GPPG</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,27 +31,71 @@
 		<PackageReference Include="OpenTK.Mathematics" />
 		<PackageReference Include="System.IO.Hashing" />
 		<PackageReference Include="ZstdSharp.Port" />
+		<PackageReference Include="YaccLexTools" />
+	</ItemGroup>
+
+	<ItemGroup Label="GoalParser">
+		<YaccFile Include="LS\Story\GoalParser\Goal.yy">
+			<OutputFile>LS\Story\GoalParser\Goal.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="LS\Story\GoalParser\Goal.lex">
+			<OutputFile>LS\Story\GoalParser\Goal.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
+	</ItemGroup>
+
+	<ItemGroup Label="HeaderParser">
+		<YaccFile Include="LS\Story\HeaderParser\StoryHeader.yy">
+			<OutputFile>LS\Story\HeaderParser\StoryHeader.yy.cs</OutputFile>
+			<Arguments>/gplex /nolines</Arguments>
+		</YaccFile>
+		<LexFile Include="LS\Story\HeaderParser\StoryHeader.lex">
+			<OutputFile>LS\Story\HeaderParser\StoryHeader.lex.cs</OutputFile>
+			<Arguments>/noEmbedBuffers</Arguments>
+		</LexFile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="LS\Story\GoalParser\Goal.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>LS\Story\GoalParser\Goal.yy</DependentUpon>
+		</Compile>
+		<Compile Update="LS\Story\GoalParser\Goal.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>LS\Story\GoalParser\Goal.lex</DependentUpon>
+		</Compile>
+		<Compile Update="LS\Story\HeaderParser\StoryHeader.yy.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>LS\Story\HeaderParser\StoryHeader.yy</DependentUpon>
+		</Compile>
+		<Compile Update="LS\Story\HeaderParser\StoryHeader.lex.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>LS\Story\HeaderParser\StoryHeader.lex</DependentUpon>
+		</Compile>
+		<Compile Update="GplexBuffers.cs">
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="ShiftReduceParserCode.cs">
+			<AutoGen>True</AutoGen>
+		</Compile>
 	</ItemGroup>
 
 	<PropertyGroup>
-		<SrcDirectory>$([System.IO.Directory]::GetParent($(MSBuildProjectDirectory)))</SrcDirectory>
-		<ProjectTopDirectory>$([System.IO.Directory]::GetParent($(SrcDirectory)))</ProjectTopDirectory>
-		<GPPGDir>$(ProjectTopDirectory)\External\gppg\binaries</GPPGDir>
-		<GpLex>$(GPPGDir)\GpLex</GpLex>
-		<Gppg>$(GPPGDir)\Gppg</Gppg>
-		<GoalParser>$(MSBuildProjectDirectory)\LS\Story\GoalParser</GoalParser>
-		<HeaderParser>$(MSBuildProjectDirectory)\LS\Story\HeaderParser</HeaderParser>
+		<BuffFile>GplexBuffers.cs</BuffFile>
 	</PropertyGroup>
-
-	<Target Name="CleanStoryGppgFiles" AfterTargets="Clean">
-		<Delete Files="$(GoalParser)\Goal.lex.cs;$(GoalParser)\Goal.yy.cs;$(HeaderParser)\StoryHeader.lex.cs;$(HeaderParser)\StoryHeader.yy.cs" ContinueOnError="true" TreatErrorsAsWarnings="true" />
-	</Target>
-
-	<Target Name="PreBuildStoryGppgFiles" BeforeTargets="PreBuildEvent">
-		<Exec Condition="!Exists('$(GoalParser)\Goal.lex.cs')" Command="$(GpLex) /out:&quot;$(GoalParser)\Goal.lex.cs&quot; &quot;$(GoalParser)\Goal.lex&quot;" ContinueOnError="true" />
-		<Exec Condition="!Exists('$(GoalParser)\Goal.yy.cs')" Command="$(Gppg) /out:&quot;$(GoalParser)\Goal.yy.cs&quot; &quot;$(GoalParser)\Goal.yy&quot;" ContinueOnError="true" />
-
-		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.lex.cs')" Command="$(GpLex) /out:&quot;$(HeaderParser)\StoryHeader.lex.cs&quot; &quot;$(HeaderParser)\StoryHeader.lex&quot;" ContinueOnError="true" />
-		<Exec Condition="!Exists('$(HeaderParser)\StoryHeader.yy.cs')" Command="$(Gppg) /out:&quot;$(HeaderParser)\StoryHeader.yy.cs&quot; &quot;$(HeaderParser)\StoryHeader.yy&quot;" ContinueOnError="true" />
+	<!-- Workaround from Capranaut
+	https://github.com/Norbyte/lslib/pull/290
+	Patches https://github.com/ernstc/YaccLexTools/issues/8 -->
+	<Target Name="PatchYaccLexBuild" AfterTargets="YaccLexToolsGplexSingleTarget" BeforeTargets="CoreCompile">
+		<CallTarget Targets="YaccLexToolsGplexSingleTarget"/>
+		<Message Text="Diagnostic Message: $(BuffFile) not found" Importance="high" Condition="!Exists('$(BuffFile)')"/>
+		<Message Text="Patching $(BuffFile) visibility mismatch. Remove once https://github.com/ernstc/YaccLexTools/issues/8 has been resolved." Importance="high" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;(Get-Content -Path '$(BuffFile)' -Raw) -replace 'internal abstract class ScanBuff', 'public abstract class ScanBuff' | Set-Content -Path '$(BuffFile)'&quot;" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;(Get-Content -Path '$(BuffFile)' -Raw) -replace 'internal class BufferException', 'public class BufferException' | Set-Content -Path '$(BuffFile)'&quot;" Condition="Exists('$(BuffFile)')"/>
 	</Target>
 </Project>

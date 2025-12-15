@@ -10,5 +10,6 @@
     <PackageVersion Include="OpenTK.Mathematics" Version="4.9.4" />
     <PackageVersion Include="System.IO.Hashing" Version="10.0.1" />
     <PackageVersion Include="ZstdSharp.Port" Version="0.8.6" />
+    <PackageVersion Include="YaccLexTools" Version="1.2.3" />
   </ItemGroup>
 </Project>

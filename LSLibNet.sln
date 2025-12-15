@@ -5,8 +5,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{6DF990BA-71FD-4DAE-9BAD-53B4B9097C13}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		src\Directory.build.props = src\Directory.build.props
-		src\Directory.Packages.props = src\Directory.Packages.props
+		Directory.build.props = Directory.build.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSLib", "src\LSLib\LSLib.csproj", "{D9CDFE0E-1D0D-33F2-9CB7-FF8D34740001}"
@@ -40,7 +40,6 @@ Global
 		{60C22BC8-6430-541E-EB77-5AC3C40848C5}.Release|x64.ActiveCfg = Release|Any CPU
 		{60C22BC8-6430-541E-EB77-5AC3C40848C5}.Release|x64.Build.0 = Release|Any CPU
 		{D7A1A182-8C2B-444D-A7EA-D50CDB987587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7A1A182-8C2B-444D-A7EA-D50CDB987587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A1A182-8C2B-444D-A7EA-D50CDB987587}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{D7A1A182-8C2B-444D-A7EA-D50CDB987587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A1A182-8C2B-444D-A7EA-D50CDB987587}.Release|Any CPU.Build.0 = Release|Any CPU
