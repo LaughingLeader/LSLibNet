@@ -88,14 +88,24 @@
 	<PropertyGroup>
 		<BuffFile>GplexBuffers.cs</BuffFile>
 	</PropertyGroup>
+	
 	<!-- Workaround from Capranaut
 	https://github.com/Norbyte/lslib/pull/290
 	Patches https://github.com/ernstc/YaccLexTools/issues/8 -->
-	<Target Name="PatchYaccLexBuild" AfterTargets="YaccLexToolsGplexSingleTarget" BeforeTargets="CoreCompile">
+	
+	<Target Name="PatchYaccLexBuildWindows" AfterTargets="YaccLexToolsGplexSingleTarget" BeforeTargets="CoreCompile" Condition="$([System.OperatingSystem]::IsWindows())">
 		<CallTarget Targets="YaccLexToolsGplexSingleTarget"/>
 		<Message Text="Diagnostic Message: $(BuffFile) not found" Importance="high" Condition="!Exists('$(BuffFile)')"/>
 		<Message Text="Patching $(BuffFile) visibility mismatch. Remove once https://github.com/ernstc/YaccLexTools/issues/8 has been resolved." Importance="high" Condition="Exists('$(BuffFile)')"/>
 		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;(Get-Content -Path '$(BuffFile)' -Raw) -replace 'internal abstract class ScanBuff', 'public abstract class ScanBuff' | Set-Content -Path '$(BuffFile)'&quot;" Condition="Exists('$(BuffFile)')"/>
 		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;(Get-Content -Path '$(BuffFile)' -Raw) -replace 'internal class BufferException', 'public class BufferException' | Set-Content -Path '$(BuffFile)'&quot;" Condition="Exists('$(BuffFile)')"/>
+	</Target>
+	
+	<Target Name="PatchYaccLexBuildLinux" AfterTargets="YaccLexToolsGplexSingleTarget" BeforeTargets="CoreCompile" Condition="$([System.OperatingSystem]::IsLinux())">
+		<CallTarget Targets="YaccLexToolsGplexSingleTarget"/>
+		<Message Text="Diagnostic Message: $(BuffFile) not found" Importance="high" Condition="!Exists('$(BuffFile)')"/>
+		<Message Text="Patching $(BuffFile) visibility mismatch. Remove once https://github.com/ernstc/YaccLexTools/issues/8 has been resolved." Importance="high" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="sed -i -e 's/internal abstract class ScanBuff/public abstract class ScanBuff/g' /tmp/file.txt" Condition="Exists('$(BuffFile)')"/>
+		<Exec Command="sed -i -e 's/internal class BufferException/public class BufferException/g' /tmp/file.txt" Condition="Exists('$(BuffFile)')"/>
 	</Target>
 </Project>
